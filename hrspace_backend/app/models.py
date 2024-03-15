@@ -1,3 +1,5 @@
 from django.db import models
+from django.db import models.Model
 
-# Create your models here.
+
+class Application()
