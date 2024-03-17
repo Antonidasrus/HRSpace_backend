@@ -58,8 +58,8 @@ ROOT_URLCONF = 'hrspace_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        # 'DIRS': [BASE_DIR / 'templates'],
+        # 'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # для теста в браузере до фронта
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,8 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'ru'
 
-# TIME_ZONE = 'UTC'
-TIME_ZONE = 'UTC+3'
+TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC+3'
 
 USE_I18N = True
 

@@ -1,3 +1,32 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Application, Profession, Skill, SkillApplication
+from users.models import User
+
+
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+#     pass
+
+
+# admin.site.register(Application)
+
+
+@admin.register(Application)
+class ApplicationAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Profession)
+class ProfessionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SkillApplication)
+class SkillApplicationAdmin(admin.ModelAdmin):
+    pass
