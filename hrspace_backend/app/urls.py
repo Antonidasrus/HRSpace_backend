@@ -5,5 +5,6 @@ from .views import index
 
 
 urlpatterns = [
-    path('', index)
+    path('', index) # для теста в браузере до фронта
+
 ]

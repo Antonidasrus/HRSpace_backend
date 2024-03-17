@@ -12,8 +12,8 @@ class Profession(models.Model):
     #     verbose_name_plural = 'Профессии'
     #     ordering = ('-name',)
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 
 
 class Skill(models.Model):
@@ -24,8 +24,8 @@ class Skill(models.Model):
     #     verbose_name_plural = 'Профессии'
     #     ordering = ('-name',)
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 
 
 class Application(models.Model):
@@ -33,13 +33,14 @@ class Application(models.Model):
         User,
         on_delete=models.CASCADE,
     )
+    # text_field = models.TextField()
+    # integer_field = 
+    # one_choise_field = 
+    # several_choise_field = 
+
     name = models.TextField(
         verbose_name='Название вакансии'
     )
-    # professions = models.ManyToManyField(
-    #     Profession,
-    #     through='ProfessionApplication',
-    # )
     profession = models.ForeignKey(
         Profession,
         on_delete=models.CASCADE  #
@@ -57,16 +58,6 @@ class Application(models.Model):
     def __str__(self):
         return self.name
 
-
-# class ProfessionApplication(models.Model):
-#     application_id = models.ForeignKey(
-#         Application,
-#         on_delete=models.CASCADE
-#     )
-#     profession_id = models.ForeignKey(
-#         Profession,
-#         on_delete=models.CASCADE
-#     )
 
 class SkillApplication(models.Model):
     application_id = models.ForeignKey(
