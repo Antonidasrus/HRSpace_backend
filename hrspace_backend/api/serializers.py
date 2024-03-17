@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 # from users.models import User
 from app.models import Application
@@ -34,3 +35,35 @@ class Application3Serializer(ModelSerializer):
             fields = ('employer_id', 'name', 'profession',)
         if 1==1:
             fields = '__all__'
+
+
+class Application4Serializer(ModelSerializer):
+
+    class Meta:
+        model = Application
+        # fields = ('employer_id', 'name', 'profession', 'salary', 'created')
+        fields = ('employer_id', 'name', 'profession', 'created')
+        # title_id = self.kwargs.get('profession_id')
+        # if 1==2: # сюда принести слаг из урла
+        #     fields = ('employer_id', 'name', 'profession',)
+        # if 1==1:
+        #     fields = '__all__'
+
+    # def create(self, validated_data):
+    #     request = self.context.get('request')
+    #     application_id = request.parser_context['kwargs'].get('application_id')
+    #     print('аааааааааааа')
+    #     print(application_id)
+    #     # if application_id == 2:
+    #     if 2 == 2:
+    #         print('ооооооооооо')
+    #         self.fields['salary'] = serializers.IntegerField()
+    #     return super().create(validated_data)
+
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        application_id = request.parser_context['kwargs'].get('application_id')
+        if int(application_id) in [2,4,9]:
+            print('ооооооооооо')
+            self.fields['salary'] = serializers.IntegerField()
+        return super().to_representation(instance)

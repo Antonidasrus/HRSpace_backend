@@ -3,7 +3,7 @@
 from app.models import Application
 from rest_framework.viewsets import ModelViewSet
 # from .serializers import UserSerializer
-from .serializers import ApplicationSerializer, Application2Serializer, Application3Serializer
+from .serializers import ApplicationSerializer, Application2Serializer, Application3Serializer, Application4Serializer
 
 
 # class UserViewSet(ModelViewSet):
@@ -24,3 +24,8 @@ class Application2ViewSet(ModelViewSet):
 class Application3ViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = Application3Serializer
+
+
+class Application4ViewSet(ModelViewSet):
+    queryset = Application.objects.all()
+    serializer_class = Application4Serializer
