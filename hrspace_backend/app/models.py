@@ -3,7 +3,7 @@ from django.db import models
 from users.models import User
 
 
-class Profession(models.Model):
+class Specialization(models.Model):
     name = models.TextField('Название профессии', max_length=256, unique=True)
 
     # class Meta:
@@ -15,7 +15,7 @@ class Profession(models.Model):
         return self.name
 
 
-class City(models.Model):
+class Towns(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
     # class Meta:
@@ -73,19 +73,18 @@ class LanguageLevel(models.Model):
         return self.name
 
 
-class Bonus(models.Model):
+class Registration(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
     # class Meta:
-    #     verbose_name = 'Бонус'
-    # verbose_name_plural = 'Бонусы'
+    #     verbose_name = 'Уровень языка'
     #     ordering = ('-name',)
 
     def __str__(self):
         return self.name
 
 
-class Registration(models.Model):
+class Occupation(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
     # class Meta:
@@ -119,7 +118,18 @@ class Schedule(models.Model):
         return self.name
 
 
-class Wait(models.Model):
+class Expectations(models.Model):
+    name = models.TextField(max_length=256, unique=True)
+
+    # class Meta:
+    #     verbose_name = 'непонятно'
+    #     ordering = ('-name',)
+
+    def __str__(self):
+        return self.name
+
+
+class Payments(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
     # class Meta:
@@ -134,84 +144,88 @@ class Application(models.Model):
     # поля модели скомпанованы по типу:
 
     # данные проставляются автоматически
-    employer_id = models.ForeignKey(
+    employer_id = models.ForeignKey( ###
         User,
         on_delete=models.CASCADE,
-    )
-    created = models.DateField(auto_now_add=True)
+        )
+    date = models.DateField( ###
+        auto_now_add=True
+        )
 
     # юзер ставит галочку или нет
-    trips = models.BooleanField() # или поменять на выбор из нескольких?
-    has_bonuses = models.BooleanField()
+    mission = models.BooleanField() ### или поменять на выбор из нескольких?
+    bonus = models.BooleanField() ###
 
     # юзер вводит значения вручную
-    name = models.TextField(
-        default='Новая заявка', # на 2ом шаге данные подтягиваются из поле “специальность
-        verbose_name='Название вакансии/заявки'
-    )
-    salary = models.PositiveIntegerField()
+    # name = models.TextField(
+    #     default='Новая заявка', # на 2ом шаге данные подтягиваются из поле “специальность
+    #     verbose_name='Название вакансии/заявки'
+    # )
+    salary = models.PositiveIntegerField() ###
     responsibilities = models.TextField(
         verbose_name='Обязанности'
     )
-    other_requirements = models.TextField(
-        verbose_name='Прочие требования'
-    )
+    # other_requirements = models.TextField(
+    #     verbose_name='Прочие требования'
+    # )
+    countCandidates = models.PositiveIntegerField() ###
+    countRecruiter = models.PositiveIntegerField() ###
+    award = models.PositiveIntegerField() ###
 
     # юзер выбирает одно из списка. или добавляет свое
-    profession = models.ForeignKey(
-        Profession,
-        on_delete=models.CASCADE  # при вводе букв появляются подсказки
+    specialization = models.ForeignKey( ###
+        Specialization,
+        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
     )
-    city = models.ForeignKey(
-        City,
-        on_delete=models.CASCADE  # при вводе букв появляются подсказки
+    towns = models.ForeignKey( ###
+        Towns,
+        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
     )
-    experience = models.ForeignKey(
+    experience = models.ForeignKey( ###
         Experience,
-        on_delete=models.CASCADE  # при вводе букв появляются подсказки
+        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
     )
-    education = models.ForeignKey(
+    education = models.ForeignKey( ###
         Education,
-        on_delete=models.CASCADE  # при вводе букв появляются подсказки
+        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
     )
-    foreign_language = models.ForeignKey(  #### уточнить и переделать в несколько языков
-        Language,
-        on_delete=models.CASCADE  # при вводе букв появляются подсказки
-    )
-    language_level = models.ForeignKey(
-        LanguageLevel,
-        on_delete=models.CASCADE  # при вводе букв появляются подсказки
+    payments = models.ForeignKey( ###
+        Payments,
+        on_delete=models.SET_NULL  # добавить: при вводе букв появляются подсказки
     )
 
 
     # юзер выбирает несколько из списка
-    skills = models.ManyToManyField(
+    skills = models.ManyToManyField(  ###
         Skill,
         through='SkillApplication',
     )
-    registration = models.ManyToManyField(
+    languages = models.ManyToManyField(  #### уточнить и переделать в несколько языков
+        Language,
+        through='LanguageApplication',
+    )
+    registration = models.ManyToManyField( ### чекчек
         Registration,
         through='RegistrationApplication',
     )
-    schedule = models.ManyToManyField(
+    occupation = models.ManyToManyField( ###
+        Occupation,
+        through='OccupationApplication',
+    )
+    timetable = models.ManyToManyField(  ###
         Schedule,
         through='ScheduleApplication',
     )
-    bonuses = models.ManyToManyField(
-        Bonus,
-        through='BonusApplication',
+    expectations = models.ManyToManyField(  ###
+        Expectations,
+        through='ExpectationsApplication',
     )
-    wait = models.ManyToManyField(  # жду ответ, о чем это поле
-        Wait,
-        through='WaitApplication',
-    )
-
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('date',)
 
     def __str__(self):
-        return self.name
+        return self.specialization
 
 
 class SkillApplication(models.Model):
@@ -225,6 +239,21 @@ class SkillApplication(models.Model):
     )
 
 
+class LanguageApplication(models.Model):
+    application_id = models.ForeignKey(
+        Application,
+        on_delete=models.CASCADE
+    )
+    language_id = models.ForeignKey(
+        Language,
+        on_delete=models.CASCADE
+    )
+    language_level = models.ForeignKey(
+        LanguageLevel,
+        on_delete=models.SET_NULL  # добавить: при вводе букв появляются подсказки
+    )
+
+
 class ScheduleApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
@@ -232,6 +261,17 @@ class ScheduleApplication(models.Model):
     )
     Schedule_id = models.ForeignKey(
         Schedule,
+        on_delete=models.CASCADE
+    )
+
+
+class OccupationApplication(models.Model):
+    occupation_id = models.ForeignKey(
+        Occupation,
+        on_delete=models.CASCADE
+    )
+    registration_id = models.ForeignKey(
+        Registration,
         on_delete=models.CASCADE
     )
 
@@ -247,23 +287,12 @@ class RegistrationApplication(models.Model):
     )
 
 
-class BonusApplication(models.Model):
+class ExpectationsApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
         on_delete=models.CASCADE
     )
-    bonus_id = models.ForeignKey(
-        Bonus,
-        on_delete=models.CASCADE
-    )
-
-
-class WaitApplication(models.Model):
-    application_id = models.ForeignKey(
-        Application,
-        on_delete=models.CASCADE
-    )
-    bonus_id = models.ForeignKey(
-        Bonus,
+    expectations_id = models.ForeignKey(
+        Expectations,
         on_delete=models.CASCADE
     )
