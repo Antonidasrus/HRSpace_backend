@@ -1,3 +1,7 @@
+# заготовка, чтобы вынести часть для рекрутера в отдельное приложение
+
+
+'''
 from django.db import models
 from app.models import Application
 
@@ -23,11 +27,8 @@ class Application_hr(models.Model):
     created = models.DateField(auto_now_add=True)
 
     # ставит галочку или нет
-
     # поля, в которые юзер вводит значения вручную
-
     # юзер выбирает одно из списка. или добавляет свое
-
     # юзер выбирает несколько из списка
     wait = models.ManyToManyField(  # жду ответ, о чем это поле
         Wait,
@@ -51,3 +52,4 @@ class WaitApplication(models.Model):
         Bonus,
         on_delete=models.CASCADE
     )
+'''

@@ -1,7 +1,5 @@
 from django.shortcuts import render
-
 from .form import ApplicationForm
-from .models import Application
 
 
 # для теста в браузере до фронта

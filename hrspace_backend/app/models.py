@@ -1,5 +1,4 @@
 from django.db import models
-# from django.db import models.Model
 
 from users.models import User
 
@@ -120,19 +119,32 @@ class Schedule(models.Model):
         return self.name
 
 
+class Wait(models.Model):
+    name = models.TextField(max_length=256, unique=True)
+
+    # class Meta:
+    #     verbose_name = 'непонятно'
+    #     ordering = ('-name',)
+
+    def __str__(self):
+        return self.name
+
+
 class Application(models.Model):
-    # проставляется автоматически
+    # поля модели скомпанованы по типу:
+
+    # данные проставляются автоматически
     employer_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
     )
     created = models.DateField(auto_now_add=True)
 
-    # ставит галочку или нет
+    # юзер ставит галочку или нет
     trips = models.BooleanField() # или поменять на выбор из нескольких?
     has_bonuses = models.BooleanField()
 
-    # поля, в которые юзер вводит значения вручную
+    # юзер вводит значения вручную
     name = models.TextField(
         default='Новая заявка', # на 2ом шаге данные подтягиваются из поле “специальность
         verbose_name='Название вакансии/заявки'
@@ -189,6 +201,11 @@ class Application(models.Model):
         Bonus,
         through='BonusApplication',
     )
+    wait = models.ManyToManyField(  # жду ответ, о чем это поле
+        Wait,
+        through='WaitApplication',
+    )
+
 
     class Meta:
         ordering = ('created',)
@@ -231,6 +248,17 @@ class RegistrationApplication(models.Model):
 
 
 class BonusApplication(models.Model):
+    application_id = models.ForeignKey(
+        Application,
+        on_delete=models.CASCADE
+    )
+    bonus_id = models.ForeignKey(
+        Bonus,
+        on_delete=models.CASCADE
+    )
+
+
+class WaitApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
         on_delete=models.CASCADE
