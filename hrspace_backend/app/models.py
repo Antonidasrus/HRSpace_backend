@@ -120,17 +120,6 @@ class Schedule(models.Model):
         return self.name
 
 
-class Wait(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
-    # class Meta:
-    #     verbose_name = 'непонятно'
-    #     ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
-
-
 class Application(models.Model):
     # проставляется автоматически
     employer_id = models.ForeignKey(
@@ -208,35 +197,6 @@ class Application(models.Model):
         return self.name
 
 
-# пока добавил одно поля дня теста
-class Application_hr(models.Model):
-    # проставляется автоматически
-    application_id = models.ForeignKey(
-        Application,
-        on_delete=models.CASCADE
-    )
-    created = models.DateField(auto_now_add=True)
-
-    # ставит галочку или нет
-
-    # поля, в которые юзер вводит значения вручную
-
-    # юзер выбирает одно из списка. или добавляет свое
-
-    # юзер выбирает несколько из списка
-    wait = models.ManyToManyField(  # жду ответ, о чем это поле
-        Skill,
-        through='WaitApplication',
-    )
-
-
-    class Meta:
-        ordering = ('created',)
-
-    def __str__(self):
-        return self.name    
-
-
 class SkillApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
@@ -271,17 +231,6 @@ class RegistrationApplication(models.Model):
 
 
 class BonusApplication(models.Model):
-    application_id = models.ForeignKey(
-        Application,
-        on_delete=models.CASCADE
-    )
-    bonus_id = models.ForeignKey(
-        Bonus,
-        on_delete=models.CASCADE
-    )
-
-
-class WaitApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
         on_delete=models.CASCADE

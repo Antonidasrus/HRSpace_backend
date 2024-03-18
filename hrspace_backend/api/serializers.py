@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 # from users.models import User
 from app.models import Application
-# from app_hr.models import Comment, Follow, Group, Post, User
+from app_hr.models import Application_hr
 
 
 # class UserSerializer(ModelSerializer):
@@ -67,3 +67,10 @@ class Application4Serializer(ModelSerializer):
             print('ооооооооооо')
             self.fields['salary'] = serializers.IntegerField()
         return super().to_representation(instance)
+
+
+class Application_hrSerializer(ModelSerializer):
+
+    class Meta:
+        model = Application_hr
+        fields = '__all__'
