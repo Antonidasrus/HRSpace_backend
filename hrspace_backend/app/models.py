@@ -80,7 +80,7 @@ class Expectations(TemplateName):
         verbose_name_plural = 'Задачи рекрутера'
 
 
-class Payments(models.Model):
+class Payments(TemplateName):
     class Meta:
         verbose_name = 'Вариант выплаты рекрутеру'
         verbose_name_plural = 'Варианты выплат рекрутеру'
