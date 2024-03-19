@@ -175,23 +175,23 @@ class Application(models.Model):
     # юзер выбирает одно из списка. или добавляет свое
     specialization = models.ForeignKey( ###
         Specialization,
-        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
     )
     towns = models.ForeignKey( ###
         Towns,
-        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
     )
     experience = models.ForeignKey( ###
         Experience,
-        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
     )
     education = models.ForeignKey( ###
         Education,
-        on_delete=models.SET_NULL  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
     )
     payments = models.ForeignKey( ###
         Payments,
-        on_delete=models.SET_NULL  # добавить: при вводе букв появляются подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв появляются подсказки
     )
 
 
@@ -235,7 +235,7 @@ class SkillApplication(models.Model):
     )
     skill_id = models.ForeignKey(
         Skill,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
 
@@ -246,11 +246,11 @@ class LanguageApplication(models.Model):
     )
     language_id = models.ForeignKey(
         Language,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
     language_level = models.ForeignKey(
         LanguageLevel,
-        on_delete=models.SET_NULL  # добавить: при вводе букв появляются подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв появляются подсказки
     )
 
 
@@ -261,18 +261,18 @@ class ScheduleApplication(models.Model):
     )
     Schedule_id = models.ForeignKey(
         Schedule,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
 
 class OccupationApplication(models.Model):
-    occupation_id = models.ForeignKey(
-        Occupation,
+    application_id = models.ForeignKey(
+        Application,
         on_delete=models.CASCADE
     )
-    registration_id = models.ForeignKey(
-        Registration,
-        on_delete=models.CASCADE
+    occupation_id = models.ForeignKey(
+        Occupation,
+        on_delete=models.PROTECT
     )
 
 
@@ -283,7 +283,7 @@ class RegistrationApplication(models.Model):
     )
     registration_id = models.ForeignKey(
         Registration,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
 
@@ -294,5 +294,5 @@ class ExpectationsApplication(models.Model):
     )
     expectations_id = models.ForeignKey(
         Expectations,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )

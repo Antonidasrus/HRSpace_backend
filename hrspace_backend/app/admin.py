@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Application, Profession, Skill, SkillApplication
+from .models import Application, Skill, SkillApplication
 # from users.models import User
 
 
@@ -14,9 +14,9 @@ class ApplicationAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Profession)
-class ProfessionAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(Profession)
+# class ProfessionAdmin(admin.ModelAdmin):
+#     pass
 
 
 @admin.register(Skill)
