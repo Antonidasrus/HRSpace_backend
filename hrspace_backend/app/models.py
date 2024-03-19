@@ -6,10 +6,10 @@ from users.models import User
 class Specialization(models.Model):
     name = models.TextField('Название профессии', max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Профессия'
-    #     verbose_name_plural = 'Профессии'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Специальность'
+        verbose_name_plural = 'Специальности'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -18,10 +18,10 @@ class Specialization(models.Model):
 class Towns(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Город'
-    #     verbose_name_plural = 'Города'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -30,10 +30,10 @@ class Towns(models.Model):
 class Experience(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Опыт работы'
-    #     verbose_name_plural = 'Варианты опыта работы'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Опыт работы в годах'
+        verbose_name_plural = 'Варианты опыта работы в годах'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -42,10 +42,10 @@ class Experience(models.Model):
 class Education(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Образование'
-    #     verbose_name_plural = 'Варианты образования'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Образование'
+        verbose_name_plural = 'Варианты образования'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -54,20 +54,22 @@ class Education(models.Model):
 class Language(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Знание языка'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Знание языка'
+        verbose_name_plural = 'Знание языков'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
 
 
-class LanguageLevel(models.Model):
+class LanguageLevel(models.Model): 
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Уровень языка'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Уровень языка'
+        verbose_name_plural = 'Уровни языка'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -76,9 +78,10 @@ class LanguageLevel(models.Model):
 class Registration(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Уровень языка'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Варинт оформления'
+        verbose_name_plural = 'Варинты оформления'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -87,9 +90,10 @@ class Registration(models.Model):
 class Occupation(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Уровень языка'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Тип  занятости'
+        verbose_name_plural = 'Типы занятости'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -98,10 +102,10 @@ class Occupation(models.Model):
 class Skill(models.Model):
     name = models.TextField('Название профессии', max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'Профессия'
-    #     verbose_name_plural = 'Профессии'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Ключевые навыки'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -110,9 +114,10 @@ class Skill(models.Model):
 class Schedule(models.Model):
     name = models.TextField('График работы', max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'График работы'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'График работы'
+        verbose_name_plural = 'Варианты графика работы'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -121,9 +126,10 @@ class Schedule(models.Model):
 class Expectations(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'непонятно'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Задача рекрутера'
+        verbose_name_plural = 'Задачи  рекрутера'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
@@ -132,9 +138,10 @@ class Expectations(models.Model):
 class Payments(models.Model):
     name = models.TextField(max_length=256, unique=True)
 
-    # class Meta:
-    #     verbose_name = 'непонятно'
-    #     ordering = ('-name',)
+    class Meta:
+        verbose_name = 'Вариант выплаты рекрутеру'
+        verbose_name_plural = 'Варианты выплат рекрутеру'
+        ordering = ('-name',)
 
     def __str__(self):
         return self.name
