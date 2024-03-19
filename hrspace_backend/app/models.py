@@ -3,148 +3,87 @@ from django.db import models
 from users.models import User
 
 
-class Specialization(models.Model):
-    name = models.TextField('Название профессии', max_length=256, unique=True)
+class TemplateName(models.Model):
+    name = models.CharField('Название', max_length=256, unique=True)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+        ordering = ('-name',)
+
+
+class Specialization(TemplateName):
     class Meta:
         verbose_name = 'Специальность'
         verbose_name_plural = 'Специальности'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Towns(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Towns(TemplateName):
     class Meta:
         verbose_name = 'Город'
         verbose_name_plural = 'Города'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Experience(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Experience(TemplateName):
     class Meta:
         verbose_name = 'Опыт работы в годах'
         verbose_name_plural = 'Варианты опыта работы в годах'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Education(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Education(TemplateName):
     class Meta:
         verbose_name = 'Образование'
         verbose_name_plural = 'Варианты образования'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Language(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Language(TemplateName):
     class Meta:
         verbose_name = 'Знание языка'
         verbose_name_plural = 'Знание языков'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class LanguageLevel(models.Model): 
-    name = models.TextField(max_length=256, unique=True)
-
+class LanguageLevel(TemplateName):
     class Meta:
         verbose_name = 'Уровень языка'
         verbose_name_plural = 'Уровни языка'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Registration(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Registration(TemplateName):
     class Meta:
-        verbose_name = 'Варинт оформления'
-        verbose_name_plural = 'Варинты оформления'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
+        verbose_name = 'Вариант оформления'
+        verbose_name_plural = 'Варианты оформления'
 
 
-class Occupation(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Occupation(TemplateName):
     class Meta:
-        verbose_name = 'Тип  занятости'
+        verbose_name = 'Тип занятости'
         verbose_name_plural = 'Типы занятости'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Skill(models.Model):
-    name = models.TextField('Название профессии', max_length=256, unique=True)
-
+class Skill(TemplateName):
     class Meta:
         verbose_name = 'Навык'
         verbose_name_plural = 'Ключевые навыки'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Schedule(models.Model):
-    name = models.TextField('График работы', max_length=256, unique=True)
-
+class Schedule(TemplateName):
     class Meta:
         verbose_name = 'График работы'
         verbose_name_plural = 'Варианты графика работы'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
-class Expectations(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
+class Expectations(TemplateName):
     class Meta:
         verbose_name = 'Задача рекрутера'
-        verbose_name_plural = 'Задачи  рекрутера'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
+        verbose_name_plural = 'Задачи рекрутера'
 
 
 class Payments(models.Model):
-    name = models.TextField(max_length=256, unique=True)
-
     class Meta:
         verbose_name = 'Вариант выплаты рекрутеру'
         verbose_name_plural = 'Варианты выплат рекрутеру'
-        ordering = ('-name',)
-
-    def __str__(self):
-        return self.name
 
 
 class Application(models.Model):
@@ -154,10 +93,11 @@ class Application(models.Model):
     employer_id = models.ForeignKey( ###
         User,
         on_delete=models.CASCADE,
-        )
+    )
     date = models.DateField( ###
-        auto_now_add=True
-        )
+        auto_now_add=True,
+        verbose_name='Дата публикации',
+    )
 
     # юзер ставит галочку или нет
     mission = models.BooleanField() ### или поменять на выбор из нескольких?
@@ -182,23 +122,28 @@ class Application(models.Model):
     # юзер выбирает одно из списка. или добавляет свое
     specialization = models.ForeignKey( ###
         Specialization,
-        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Специальность',
     )
     towns = models.ForeignKey( ###
         Towns,
-        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Города',
     )
     experience = models.ForeignKey( ###
         Experience,
-        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Опыт работы',
     )
     education = models.ForeignKey( ###
         Education,
-        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Образование',
     )
     payments = models.ForeignKey( ###
         Payments,
-        on_delete=models.PROTECT  # добавить: при вводе букв появляются подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв появляются подсказки
+        verbose_name='Варианты выплат рекрутеру',
     )
 
 
@@ -206,26 +151,32 @@ class Application(models.Model):
     skills = models.ManyToManyField(  ###
         Skill,
         through='SkillApplication',
+        verbose_name='Навыки',
     )
     languages = models.ManyToManyField(  #### уточнить и переделать в несколько языков
         Language,
         through='LanguageApplication',
+        verbose_name='Знание языков',
     )
     registration = models.ManyToManyField( ### чекчек
         Registration,
         through='RegistrationApplication',
+        verbose_name='Варианты оформления',
     )
     occupation = models.ManyToManyField( ###
         Occupation,
         through='OccupationApplication',
+        verbose_name='Тип занятости',
     )
     timetable = models.ManyToManyField(  ###
         Schedule,
         through='ScheduleApplication',
+        verbose_name='График работы',
     )
     expectations = models.ManyToManyField(  ###
         Expectations,
         through='ExpectationsApplication',
+        verbose_name='Задачи рекрутера',
     )
 
     class Meta:
