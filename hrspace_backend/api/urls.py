@@ -5,11 +5,11 @@ from api.views import ApplicationViewSet
 
 v1_router = DefaultRouter()
 v1_router.register(
-    'app',
+    'spaces', # поменять на app
     ApplicationViewSet,
-    basename='app')
+    basename='spaces') # поменять на app
 
 
 urlpatterns = [
-    path('v1/spaces/', include(v1_router.urls)),
+    path('v1/', include(v1_router.urls)),
 ]

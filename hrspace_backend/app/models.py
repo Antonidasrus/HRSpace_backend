@@ -229,21 +229,30 @@ class Application(models.Model):
     )
 
     class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
         ordering = ('date',)
 
     def __str__(self):
-        return self.specialization
+        return self.specialization.name
 
 
 class SkillApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     skill_id = models.ForeignKey(
         Skill,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='Навык'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-Навык'
+        verbose_name_plural = 'Заявки-Навыки'
+        ordering = ('application_id',)
 
 
 class LanguageApplication(models.Model):
