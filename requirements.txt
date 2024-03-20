@@ -7,3 +7,4 @@ djangorestframework==3.12.4
 # pytest-pythonpath==0.7.3
 # djangorestframework-simplejwt==4.7.2
 # django-filter==22.1
+tqdm==4.66.2

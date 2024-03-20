@@ -89,9 +89,37 @@ class PaymentsAdmin(admin.ModelAdmin):
     pass
 
 
+class SkillApplicationInline(admin.TabularInline):
+    model = SkillApplication
+
+
+class LanguageApplicationInline(admin.TabularInline):
+    model = LanguageApplication
+
+
+class RegistrationApplicationInline(admin.TabularInline):
+    model = RegistrationApplication
+
+
+class OccupationApplicationInline(admin.TabularInline):
+    model = OccupationApplication
+
+
+class ScheduleApplicationInline(admin.TabularInline):
+    model = ScheduleApplication
+
+
+class ExpectationsApplicationInline(admin.TabularInline):
+    model = ExpectationsApplication
+
+
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    pass
+    inlines = [
+        SkillApplicationInline, LanguageApplicationInline,
+        RegistrationApplicationInline, OccupationApplicationInline,
+        ScheduleApplicationInline, ExpectationsApplicationInline
+    ]
 
 
 @admin.register(SkillApplication)
