@@ -90,94 +90,95 @@ class Application(models.Model):
     # поля модели скомпанованы по типу:
 
     # данные проставляются автоматически
-    employer_id = models.ForeignKey( ###
+    employer_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
     )
-    date = models.DateField( ###
+    date = models.DateField(
         auto_now_add=True,
         verbose_name='Дата публикации',
     )
 
     # юзер ставит галочку или нет
-    mission = models.BooleanField() ### или поменять на выбор из нескольких?
-    bonus = models.BooleanField() ###
+    mission = models.BooleanField()  # или поменять на выбор из нескольких?
+    bonus = models.BooleanField()
 
     # юзер вводит значения вручную
-    # name = models.TextField(
-    #     default='Новая заявка', # на 2ом шаге данные подтягиваются из поле “специальность
-    #     verbose_name='Название вакансии/заявки'
-    # )
-    salary = models.PositiveIntegerField() ###
+    salary = models.PositiveIntegerField()
     responsibilities = models.TextField(
         verbose_name='Обязанности'
     )
-    # other_requirements = models.TextField(
-    #     verbose_name='Прочие требования'
-    # )
-    countCandidates = models.PositiveIntegerField() ###
-    countRecruiter = models.PositiveIntegerField() ###
-    award = models.PositiveIntegerField() ###
+    countCandidates = models.PositiveIntegerField()
+    countRecruiter = models.PositiveIntegerField()
+    award = models.PositiveIntegerField()
 
     # юзер выбирает одно из списка. или добавляет свое
-    specialization = models.ForeignKey( ###
+    specialization = models.ForeignKey(
         Specialization,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
         verbose_name='Специальность',
     )
-    towns = models.ForeignKey( ###
+    towns = models.ForeignKey(
         Towns,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
         verbose_name='Города',
     )
-    experience = models.ForeignKey( ###
+    experience = models.ForeignKey(
         Experience,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
         verbose_name='Опыт работы',
     )
-    education = models.ForeignKey( ###
+    education = models.ForeignKey(
         Education,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
         verbose_name='Образование',
     )
-    payments = models.ForeignKey( ###
+    payments = models.ForeignKey(
         Payments,
-        on_delete=models.PROTECT,  # добавить: при вводе букв появляются подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
         verbose_name='Варианты выплат рекрутеру',
     )
 
-
     # юзер выбирает несколько из списка
-    skills = models.ManyToManyField(  ###
+    skills = models.ManyToManyField(
         Skill,
         through='SkillApplication',
         verbose_name='Навыки',
     )
-    languages = models.ManyToManyField(  #### уточнить и переделать в несколько языков
+    languages = models.ManyToManyField(
         Language,
         through='LanguageApplication',
         verbose_name='Знание языков',
     )
-    registration = models.ManyToManyField( ### чекчек
+    registration = models.ManyToManyField( # чекчек
         Registration,
         through='RegistrationApplication',
         verbose_name='Варианты оформления',
     )
-    occupation = models.ManyToManyField( ###
+    occupation = models.ManyToManyField(
         Occupation,
         through='OccupationApplication',
         verbose_name='Тип занятости',
     )
-    timetable = models.ManyToManyField(  ###
+    timetable = models.ManyToManyField(
         Schedule,
         through='ScheduleApplication',
         verbose_name='График работы',
     )
-    expectations = models.ManyToManyField(  ###
+    expectations = models.ManyToManyField(
         Expectations,
         through='ExpectationsApplication',
         verbose_name='Задачи рекрутера',
     )
+
+    # заготовки
+    # other_requirements = models.TextField(
+    #     verbose_name='Прочие требования'
+    # )
+    # name = models.TextField(
+    #     default='Новая заявка', # на 2 шаге подтягивается из “специальность
+    #     verbose_name='Название вакансии/заявки'
+    # )
 
     class Meta:
         verbose_name = 'Заявка'
@@ -217,7 +218,7 @@ class LanguageApplication(models.Model):
     )
     language_level = models.ForeignKey(
         LanguageLevel,
-        on_delete=models.PROTECT  # добавить: при вводе букв появляются подсказки
+        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
     )
 
 
