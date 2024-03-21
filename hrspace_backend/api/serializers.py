@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 # from rest_framework import serializers
 
-from app.models import Application, Specialization, Towns
+from app.models import Application, Specialization, Towns, Skill, Language
 
 
 class SpecializationSerializer(ModelSerializer):
@@ -15,6 +15,20 @@ class TownsSerializer(ModelSerializer):
 
     class Meta:
         model = Towns
+        fields = '__all__'
+
+
+class SkillSerializer(ModelSerializer):
+
+    class Meta:
+        model = Skill
+        fields = '__all__'
+
+
+class LanguageSerializer(ModelSerializer):
+
+    class Meta:
+        model = Language
         fields = '__all__'
 
 

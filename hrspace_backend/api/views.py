@@ -1,6 +1,11 @@
-from app.models import Application, Specialization, Towns
+from app.models import Application, Specialization, Towns, Language, Skill
 from rest_framework.viewsets import ModelViewSet
-from .serializers import ApplicationSerializer, SpecializationSerializer, TownsSerializer
+from .serializers import (ApplicationSerializer,
+                          SpecializationSerializer,
+                          TownsSerializer,
+                          LanguageSerializer,
+                          SkillSerializer)
+from .utils import istartswith_search
 
 
 class SpecializationViewSet(ModelViewSet):
@@ -9,10 +14,7 @@ class SpecializationViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        name = self.request.query_params.get('name')
-        if name:
-            queryset = queryset.filter(name__istartswith=name)
-        return queryset
+        return istartswith_search(queryset, self)
 
 
 class TownsViewSet(ModelViewSet):
@@ -21,17 +23,25 @@ class TownsViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        name = self.request.query_params.get('name')
-        if name:
-            queryset = queryset.filter(name__istartswith=name)
-        return queryset
+        return istartswith_search(queryset, self)
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     towns = self.request.query_params.get('towns')
-    #     if towns:
-    #         queryset = queryset.filter(towns__name__istartswith=towns)
-    #     return queryset
+
+class LanguageViewSet(ModelViewSet):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return istartswith_search(queryset, self)
+
+
+class SkillViewSet(ModelViewSet):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return istartswith_search(queryset, self)
 
 
 class ApplicationViewSet(ModelViewSet):
