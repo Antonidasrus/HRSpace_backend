@@ -1,4 +1,4 @@
-from app.models import Application, Specialization, Towns, Language, Skill
+from app.models import Application, Specialization, Towns, Language, Skill, SkillSpecialization
 from rest_framework.viewsets import ModelViewSet
 from .serializers import (ApplicationSerializer,
                           SpecializationSerializer,
@@ -41,19 +41,13 @@ class SkillViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        specialization_name = self.request.query_params.get('specialization_name')
+        # specialization_name = 'кодер'
+        if specialization_name:
+            queryset = queryset.filter(specialization__name=specialization_name)
         return istartswith_search(queryset, self)
 
 
 class ApplicationViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
-
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     towns = self.request.query_params.get('towns')
-    #     specialization_name = self.request.query_params.get('specialization_name')
-    #     if towns:
-    #         queryset = queryset.filter(towns__name__istartswith=towns)
-    #     if specialization_name:
-    #         queryset = queryset.filter(specialization__name__istartswith=specialization_name)
-    #     return queryset
