@@ -21,6 +21,7 @@ from .models import (
     OccupationApplication,
     RegistrationApplication,
     ExpectationsApplication,
+    SkillSpecialization
 )
 
 
@@ -86,6 +87,11 @@ class ExpectationsAdmin(admin.ModelAdmin):
 
 @admin.register(Payments)
 class PaymentsAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SkillSpecialization)
+class SkillSpecialization(admin.ModelAdmin):
     pass
 
 

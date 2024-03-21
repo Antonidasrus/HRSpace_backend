@@ -14,7 +14,23 @@ class TemplateName(models.Model):
         ordering = ('-name',)
 
 
-class Specialization(TemplateName):
+class Skill(TemplateName):
+    class Meta:
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Ключевые навыки'
+
+
+class Specialization(models.Model):
+    name = models.CharField('Название', max_length=256, unique=True)
+    skills = models.ManyToManyField(
+        Skill,
+        through='SkillSpecialization',
+        verbose_name='Навыки',
+    )
+
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Специальность'
         verbose_name_plural = 'Специальности'
@@ -60,12 +76,6 @@ class Occupation(TemplateName):
     class Meta:
         verbose_name = 'Тип занятости'
         verbose_name_plural = 'Типы занятости'
-
-
-class Skill(TemplateName):
-    class Meta:
-        verbose_name = 'Навык'
-        verbose_name_plural = 'Ключевые навыки'
 
 
 class Schedule(TemplateName):
@@ -298,3 +308,21 @@ class ExpectationsApplication(models.Model):
         verbose_name = 'Заявка-ЗадачаРекрутера'
         verbose_name_plural = 'Заявка-ЗадачиРекрутера'
         ordering = ('application_id',)
+
+
+class SkillSpecialization(models.Model):
+    specialization_id = models.ForeignKey(
+        Specialization,
+        on_delete=models.CASCADE,
+        verbose_name='Специальность'
+    )
+    skill_id = models.ForeignKey(
+        Skill,
+        on_delete=models.PROTECT,
+        verbose_name='Навык'
+    )
+
+    class Meta:
+        verbose_name = 'Специальность-Навык'
+        verbose_name_plural = 'Специальности-Навыки'
+        ordering = ('specialization_id',)
