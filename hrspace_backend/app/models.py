@@ -100,17 +100,15 @@ class Application(models.Model):
     )
 
     # юзер ставит галочку или нет
-    mission = models.BooleanField()  # или поменять на выбор из нескольких?
-    bonus = models.BooleanField()
+    mission = models.BooleanField('Командировки')  # или поменять на выбор из нескольких?
+    bonus = models.BooleanField('Бонусы от работодателя')
 
     # юзер вводит значения вручную
-    salary = models.PositiveIntegerField()
-    responsibilities = models.TextField(
-        verbose_name='Обязанности'
-    )
-    countCandidates = models.PositiveIntegerField()
-    countRecruiter = models.PositiveIntegerField()
-    award = models.PositiveIntegerField()
+    salary = models.PositiveIntegerField('Зарплата')
+    responsibilities = models.TextField(verbose_name='Обязанности')
+    countCandidates = models.PositiveIntegerField('Количество кандидатов')
+    countRecruiter = models.PositiveIntegerField('Количество рекрутеров')
+    award = models.PositiveIntegerField('Вознаграждение рекрутера')
 
     # юзер выбирает одно из списка. или добавляет свое
     specialization = models.ForeignKey(
@@ -150,7 +148,7 @@ class Application(models.Model):
         through='LanguageApplication',
         verbose_name='Знание языков',
     )
-    registration = models.ManyToManyField( # чекчек
+    registration = models.ManyToManyField(  # чекчек
         Registration,
         through='RegistrationApplication',
         verbose_name='Варианты оформления',
@@ -210,57 +208,93 @@ class SkillApplication(models.Model):
 class LanguageApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     language_id = models.ForeignKey(
         Language,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='Язык'
     )
     language_level = models.ForeignKey(
         LanguageLevel,
-        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Уровень языка'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-Язык'
+        verbose_name_plural = 'Заявки-Языки'
+        ordering = ('application_id',)
 
 
 class ScheduleApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     Schedule_id = models.ForeignKey(
         Schedule,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='График'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-График'
+        verbose_name_plural = 'Заявка-Графики'
+        ordering = ('application_id',)
 
 
 class OccupationApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     occupation_id = models.ForeignKey(
         Occupation,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='ТипЗанятости'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-ТипЗанятости'
+        verbose_name_plural = 'Заявка-ТипыЗанятости'
+        ordering = ('application_id',)
 
 
 class RegistrationApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     registration_id = models.ForeignKey(
         Registration,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='Оформление'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-Оформление'
+        verbose_name_plural = 'Заявка-Оформление'
+        ordering = ('application_id',)
 
 
 class ExpectationsApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     expectations_id = models.ForeignKey(
         Expectations,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='ЗадачаРекрутера'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-ЗадачаРекрутера'
+        verbose_name_plural = 'Заявка-ЗадачиРекрутера'
+        ordering = ('application_id',)
