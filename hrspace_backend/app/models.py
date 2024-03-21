@@ -22,11 +22,12 @@ class Skill(TemplateName):
 
 class Specialization(models.Model):
     name = models.CharField('Название', max_length=256, unique=True)
-    skills = models.ManyToManyField(
+    skills_recomend = models.ManyToManyField(
         Skill,
         through='SkillSpecialization',
         verbose_name='Навыки',
     )
+    salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
 
     def __str__(self):
         return self.name
@@ -313,12 +314,12 @@ class ExpectationsApplication(models.Model):
 class SkillSpecialization(models.Model):
     specialization_id = models.ForeignKey(
         Specialization,
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE, ###
         verbose_name='Специальность'
     )
     skill_id = models.ForeignKey(
         Skill,
-        on_delete=models.PROTECT,
+        on_delete=models.PROTECT, ###
         verbose_name='Навык'
     )
 

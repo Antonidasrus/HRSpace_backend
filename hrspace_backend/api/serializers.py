@@ -37,3 +37,10 @@ class ApplicationSerializer(ModelSerializer):
     class Meta:
         model = Application
         fields = '__all__'
+
+
+class SalarySerializer(ModelSerializer):
+
+    class Meta:
+        model = Specialization
+        fields = ('id', 'salary_recomend')

@@ -5,7 +5,8 @@ from api.views import (ApplicationViewSet,
                        SpecializationViewSet,
                        TownsViewSet,
                        SkillViewSet,
-                       LanguageViewSet)
+                       LanguageViewSet,
+                       SalaryViewSet)
 
 v1_router = DefaultRouter()
 v1_router.register(
@@ -33,6 +34,11 @@ v1_router.register(
     'language',
     LanguageViewSet,
     basename='language')
+
+v1_router.register(
+    'salary',
+    SalaryViewSet,
+    basename='salary')
 
 
 urlpatterns = [
