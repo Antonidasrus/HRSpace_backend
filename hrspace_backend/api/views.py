@@ -74,6 +74,7 @@ class SalaryViewSet(ModelViewSet):
         average_salary = queryset.aggregate(average_salary=Avg('salary_recomend'))['average_salary']
         created_salary_recomend = Salaryrecomend(salary_recomend=average_salary)
         return [created_salary_recomend]
+# проверить, что попсле выбора города, берет данные по нему, и уже не использует istartswith
 
 
 class ApplicationViewSet(ModelViewSet):
