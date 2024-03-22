@@ -1,7 +1,7 @@
 from django.db import models
 
 from users.models import User
-
+from django.core.exceptions import ValidationError
 
 class TemplateName(models.Model):
     name = models.CharField('Название', max_length=256, unique=True)
@@ -14,16 +14,73 @@ class TemplateName(models.Model):
         ordering = ('-name',)
 
 
-class Specialization(TemplateName):
+class Skill(TemplateName):
     class Meta:
-        verbose_name = 'Специальность'
-        verbose_name_plural = 'Специальности'
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Ключевые навыки'
 
 
 class Towns(TemplateName):
     class Meta:
         verbose_name = 'Город'
         verbose_name_plural = 'Города'
+
+
+class Salaryrecomend(models.Model):
+    salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
+
+    def __str__(self):
+        return str(self.salary_recomend)
+
+    class Meta:
+        verbose_name = 'Рекомендуемая зарплата'
+        verbose_name_plural = 'Рекомендуемые зарплаты'
+
+
+class Specialization(models.Model):
+    name = models.CharField('Название', max_length=256, unique=True)
+    skills_recomend = models.ManyToManyField(
+        Skill,
+        through='SkillSpecialization',
+        verbose_name='Навыки специальности',
+    )
+    # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
+    salary_recomend = models.ManyToManyField(  # чекчек
+        Salaryrecomend,
+        through='SalaryrecomendTown',
+        verbose_name='Зарплаты по специальностям в городах',
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Специальность'
+        verbose_name_plural = 'Специальности'
+
+
+class SalaryrecomendTown(models.Model):
+    town_id = models.ForeignKey(
+        Towns,
+        on_delete=models.CASCADE, ###
+        verbose_name='Город'
+    )
+    specialization_id = models.ForeignKey(
+        Specialization,
+        on_delete=models.CASCADE, ###
+        verbose_name='Специльность'
+    )
+    # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
+    salary_recomend = models.ForeignKey(
+        Salaryrecomend,
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Рекомендуемые зарплаты по специальности',
+    )
+
+    class Meta:
+        verbose_name = 'Рекомендуемые зарплаты по специальностям в городах'
+        verbose_name_plural = 'Рекомендуемые зарплаты по специальностям в городах'
+        ordering = ('specialization_id',)
 
 
 class Experience(TemplateName):
@@ -62,12 +119,6 @@ class Occupation(TemplateName):
         verbose_name_plural = 'Типы занятости'
 
 
-class Skill(TemplateName):
-    class Meta:
-        verbose_name = 'Навык'
-        verbose_name_plural = 'Ключевые навыки'
-
-
 class Schedule(TemplateName):
     class Meta:
         verbose_name = 'График работы'
@@ -88,11 +139,11 @@ class Payments(TemplateName):
 
 class Application(models.Model):
     # поля модели скомпанованы по типу:
-
     # данные проставляются автоматически
     employer_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name='Работодатель',
     )
     date = models.DateField(
         auto_now_add=True,
@@ -101,30 +152,46 @@ class Application(models.Model):
 
     # юзер ставит галочку или нет
     mission = models.BooleanField(
-        verbose_name='Командировки'
+        verbose_name='Командировки',
+        null=True
     )  # или поменять на выбор из нескольких?
     bonus = models.BooleanField(
         verbose_name='Бонусы от работодателя',
+        null=True
     )
 
     # юзер вводит значения вручную
-    salary = models.PositiveIntegerField(
-        verbose_name='З/П сотрудника'
+    salary_min = models.PositiveBigIntegerField(
+        verbose_name='Минимальная зарплата',
+        blank=True
+    )
+    salary_max = models.PositiveBigIntegerField(
+        verbose_name='Максимальня зараплта',
+        blank=True
     )
     responsibilities = models.TextField(
-        verbose_name='Обязнности сотрудника'
+        verbose_name='Обязанности сотрудника'
     )
-    countCandidates = models.PositiveIntegerField(
-        verbose_name='Количество кандидатов для поиска'
+    other_requirements = models.TextField(
+        verbose_name='Дополнительные требования',
+        blank=True
     )
-    countRecruiter = models.PositiveIntegerField(
+    candidates_count = models.PositiveIntegerField(
+        verbose_name='Количество кандидатов'
+    )
+    recruiter_count = models.PositiveIntegerField(
         verbose_name='Количество рекрутеров'
     )
     award = models.PositiveIntegerField(
-        verbose_name='Вознаграждение за сотрудника'
+        verbose_name='Вознаграждение рекрутера'
     )
 
     # юзер выбирает одно из списка. или добавляет свое
+    name = models.CharField(
+        default='Новая заявка',
+        max_length=256,
+        verbose_name='Название вакансии/заявки'
+    )
     specialization = models.ForeignKey(
         Specialization,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
@@ -161,8 +228,9 @@ class Application(models.Model):
         Language,
         through='LanguageApplication',
         verbose_name='Знание языков',
+        blank=True
     )
-    registration = models.ManyToManyField( # чекчек
+    registration = models.ManyToManyField(  # чекчек
         Registration,
         through='RegistrationApplication',
         verbose_name='Варианты оформления',
@@ -183,22 +251,19 @@ class Application(models.Model):
         verbose_name='Задачи рекрутера',
     )
 
-    # заготовки
-    # other_requirements = models.TextField(
-    #     verbose_name='Прочие требования'
-    # )
-    # name = models.TextField(
-    #     default='Новая заявка', # на 2 шаге подтягивается из “специальность
-    #     verbose_name='Название вакансии/заявки'
-    # )
+    def clean(self):
+        if not self.salary_min and not self.salary_max:
+            raise ValidationError(
+                'Пожалуйста, заполните salary_min или salary_max'
+            )
+
+    def __str__(self):
+        return self.specialization.name
 
     class Meta:
         verbose_name = 'Заявка'
         verbose_name_plural = 'Заявки'
         ordering = ('date',)
-
-    def __str__(self):
-        return self.specialization.name
 
 
 class SkillApplication(models.Model):
@@ -222,57 +287,111 @@ class SkillApplication(models.Model):
 class LanguageApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     language_id = models.ForeignKey(
         Language,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='Язык'
     )
     language_level = models.ForeignKey(
         LanguageLevel,
-        on_delete=models.PROTECT  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Уровень языка'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-Язык'
+        verbose_name_plural = 'Заявки-Языки'
+        ordering = ('application_id',)
 
 
 class ScheduleApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     Schedule_id = models.ForeignKey(
         Schedule,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='График'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-График'
+        verbose_name_plural = 'Заявка-Графики'
+        ordering = ('application_id',)
 
 
 class OccupationApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     occupation_id = models.ForeignKey(
         Occupation,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='ТипЗанятости'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-ТипЗанятости'
+        verbose_name_plural = 'Заявка-ТипыЗанятости'
+        ordering = ('application_id',)
 
 
 class RegistrationApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     registration_id = models.ForeignKey(
         Registration,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='Оформление'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-Оформление'
+        verbose_name_plural = 'Заявка-Оформление'
+        ordering = ('application_id',)
 
 
 class ExpectationsApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Заявка'
     )
     expectations_id = models.ForeignKey(
         Expectations,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        verbose_name='ЗадачаРекрутера'
     )
+
+    class Meta:
+        verbose_name = 'Заявка-ЗадачаРекрутера'
+        verbose_name_plural = 'Заявка-ЗадачиРекрутера'
+        ordering = ('application_id',)
+
+
+class SkillSpecialization(models.Model):
+    specialization_id = models.ForeignKey(
+        Specialization,
+        on_delete=models.CASCADE, ###
+        verbose_name='Специальность'
+    )
+    skill_id = models.ForeignKey(
+        Skill,
+        on_delete=models.PROTECT, ###
+        verbose_name='Навык'
+    )
+
+    class Meta:
+        verbose_name = 'Специальность-Навык'
+        verbose_name_plural = 'Специальности-Навыки'
+        ordering = ('specialization_id',)
