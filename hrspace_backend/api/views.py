@@ -64,38 +64,11 @@ class SalaryViewSet(ModelViewSet):
         # specialization_name = 'кодер'
         if specialization_name:
             queryset = queryset.filter(specialization__name=specialization_name)
-        # return queryset
         name = self.request.query_params.get('name')
+        # name = 'Палк' # начало названия города
         if name:
-            # queryset = queryset.filter(name__istartswith=name)
             queryset = queryset.filter(salaryrecomendtown__town_id__name__istartswith=name)
-            # queryset = queryset.filter(specialization__name__istartswith=name)
         return queryset
-
-# class SalaryViewSet(ModelViewSet):
-#     queryset = Specialization.objects.all()
-#     serializer_class = SalarySerializer
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         specialization_name = self.request.query_params.get('specialization_name')
-#         # specialization_name = 'кодер'
-#         if specialization_name:
-#             queryset = queryset.filter(name=specialization_name)
-#         return queryset
-    
-
-# class SalaryViewSet(ModelViewSet):
-#     queryset = Specialization.objects.all()
-#     serializer_class = SalarySerializer
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         specialization_name = self.request.query_params.get('specialization_name')
-#         # specialization_name = 'кодер'
-#         if specialization_name:
-#             queryset = queryset.filter(name=specialization_name)
-#         return queryset
 
 
 class ApplicationViewSet(ModelViewSet):
