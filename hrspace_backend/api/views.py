@@ -10,8 +10,12 @@ from .serializers import (ApplicationSerializer,
                           TownsSerializer,
                           LanguageSerializer,
                           SkillSerializer,
-                          SalarySerializer)
+                          SalarySerializer,
+                          AverageSalarySerializer
+                          )
 from .utils import istartswith_search
+from rest_framework.response import Response
+
 
 
 class SpecializationViewSet(ModelViewSet):
@@ -68,6 +72,14 @@ class SalaryViewSet(ModelViewSet):
         # name = 'Палк' # начало названия города
         if name:
             queryset = queryset.filter(salaryrecomendtown__town_id__name__istartswith=name)
+        # print(queryset)
+        # print('aaaaaaaaa')
+        # if len(queryset)>1
+        total_salary = sum(salary.salary_recomend for salary in queryset)
+        average_salary = total_salary / queryset.count() if queryset.count() > 0 else 0
+        # queryset = {'salary_recomend': average_salary}
+        queryset = AverageSalarySerializer({'average_salary_recomend': average_salary})
+        # return Response(serializer.data)
         return queryset
 
 
