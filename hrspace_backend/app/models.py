@@ -100,17 +100,29 @@ class Application(models.Model):
     )
 
     # юзер ставит галочку или нет
-    mission = models.BooleanField()  # или поменять на выбор из нескольких?
-    bonus = models.BooleanField()
+    mission = models.BooleanField(
+        verbose_name='Командировки'
+    )  # или поменять на выбор из нескольких?
+    bonus = models.BooleanField(
+        verbose_name='Бонусы от работодателя',
+    )
 
     # юзер вводит значения вручную
-    salary = models.PositiveIntegerField()
-    responsibilities = models.TextField(
-        verbose_name='Обязанности'
+    salary = models.PositiveIntegerField(
+        verbose_name='З/П сотрудника'
     )
-    countCandidates = models.PositiveIntegerField()
-    countRecruiter = models.PositiveIntegerField()
-    award = models.PositiveIntegerField()
+    responsibilities = models.TextField(
+        verbose_name='Обязнности сотрудника'
+    )
+    countCandidates = models.PositiveIntegerField(
+        verbose_name='Количество кандидатов для поиска'
+    )
+    countRecruiter = models.PositiveIntegerField(
+        verbose_name='Количество рекрутеров'
+    )
+    award = models.PositiveIntegerField(
+        verbose_name='Вознаграждение за сотрудника'
+    )
 
     # юзер выбирает одно из списка. или добавляет свое
     specialization = models.ForeignKey(
