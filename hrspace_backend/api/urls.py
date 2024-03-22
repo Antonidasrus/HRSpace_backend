@@ -9,10 +9,19 @@ from api.views import (ApplicationViewSet,
                        SalaryViewSet)
 
 v1_router = DefaultRouter()
+
+
 v1_router.register(
     'spaces',  # поменять на app
+    # r'spaces',
     ApplicationViewSet,
     basename='spaces')  # поменять на app
+
+# v1_router.register(
+#     'spaces/drafts',  # поменять на app
+#     # r'spaces',
+#     ApplicationViewSet,
+#     basename='spaces')  # поменять на app
 
 # для тестов. проверить, будет ли на фронте без урла работать istartswith
 v1_router.register(

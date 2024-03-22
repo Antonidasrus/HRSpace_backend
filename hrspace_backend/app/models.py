@@ -14,6 +14,19 @@ class TemplateName(models.Model):
         ordering = ('-name',)
 
 
+'''
+class Appstatus(models.Model):
+    name = models.CharField('Название', max_length=256, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Статус заявки'
+        verbose_name_plural = 'Статусы заявок'
+'''
+
+
 class Skill(TemplateName):
     class Meta:
         verbose_name = 'Навык'
@@ -162,6 +175,11 @@ class Application(models.Model):
     award = models.PositiveIntegerField('Вознаграждение рекрутера')
 
     # юзер выбирает одно из списка. или добавляет свое
+    # appstatus = models.ForeignKey(
+    #     Appstatus,
+    #     on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+    #     verbose_name='Статус заявки',
+    # )
     specialization = models.ForeignKey(
         Specialization,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
