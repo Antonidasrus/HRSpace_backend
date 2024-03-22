@@ -1,7 +1,7 @@
 from django.db import models
 
 from users.models import User
-
+from django.core.exceptions import ValidationError
 
 class TemplateName(models.Model):
     name = models.CharField('Название', max_length=256, unique=True)
@@ -152,11 +152,11 @@ class Payments(TemplateName):
 
 class Application(models.Model):
     # поля модели скомпанованы по типу:
-
     # данные проставляются автоматически
     employer_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name='Работодатель',
     )
     date = models.DateField(
         auto_now_add=True,
@@ -164,15 +164,40 @@ class Application(models.Model):
     )
 
     # юзер ставит галочку или нет
-    mission = models.BooleanField('Командировки')  # или поменять на выбор из нескольких?
-    bonus = models.BooleanField('Бонусы от работодателя')
+    mission = models.BooleanField(
+        verbose_name='Командировки',
+        null=True
+    )  # или поменять на выбор из нескольких?
+    bonus = models.BooleanField(
+        verbose_name='Бонусы от работодателя',
+        null=True
+    )
 
     # юзер вводит значения вручную
-    salary = models.PositiveIntegerField('Зарплата')
-    responsibilities = models.TextField(verbose_name='Обязанности')
-    countCandidates = models.PositiveIntegerField('Количество кандидатов')
-    countRecruiter = models.PositiveIntegerField('Количество рекрутеров')
-    award = models.PositiveIntegerField('Вознаграждение рекрутера')
+    salary_min = models.PositiveBigIntegerField(
+        verbose_name='Минимальная зарплата',
+        blank=True
+    )
+    salary_max = models.PositiveBigIntegerField(
+        verbose_name='Максимальня зараплта',
+        blank=True
+    )
+    responsibilities = models.TextField(
+        verbose_name='Обязанности сотрудника'
+    )
+    other_requirements = models.TextField(
+        verbose_name='Дополнительные требования',
+        blank=True
+    )
+    candidates_count = models.PositiveIntegerField(
+        verbose_name='Количество кандидатов'
+    )
+    recruiter_count = models.PositiveIntegerField(
+        verbose_name='Количество рекрутеров'
+    )
+    award = models.PositiveIntegerField(
+        verbose_name='Вознаграждение рекрутера'
+    )
 
     # юзер выбирает одно из списка. или добавляет свое
     # appstatus = models.ForeignKey(
@@ -180,6 +205,11 @@ class Application(models.Model):
     #     on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
     #     verbose_name='Статус заявки',
     # )
+    name = models.CharField(
+        default='Новая заявка',
+        max_length=256,
+        verbose_name='Название вакансии/заявки'
+    )
     specialization = models.ForeignKey(
         Specialization,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
@@ -216,6 +246,7 @@ class Application(models.Model):
         Language,
         through='LanguageApplication',
         verbose_name='Знание языков',
+        blank=True
     )
     registration = models.ManyToManyField(  # чекчек
         Registration,
@@ -238,22 +269,19 @@ class Application(models.Model):
         verbose_name='Задачи рекрутера',
     )
 
-    # заготовки
-    # other_requirements = models.TextField(
-    #     verbose_name='Прочие требования'
-    # )
-    # name = models.TextField(
-    #     default='Новая заявка', # на 2 шаге подтягивается из “специальность
-    #     verbose_name='Название вакансии/заявки'
-    # )
+    def clean(self):
+        if not self.salary_min and not self.salary_max:
+            raise ValidationError(
+                'Пожалуйста, заполните salary_min или salary_max'
+            )
+
+    def __str__(self):
+        return self.specialization.name
 
     class Meta:
         verbose_name = 'Заявка'
         verbose_name_plural = 'Заявки'
         ordering = ('date',)
-
-    def __str__(self):
-        return self.specialization.name
 
 
 class SkillApplication(models.Model):
