@@ -20,12 +20,35 @@ class Skill(TemplateName):
         verbose_name_plural = 'Ключевые навыки'
 
 
+class Towns(TemplateName):
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+
+
+class Salaryrecomend(models.Model):
+    salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
+
+    def __str__(self):
+        return str(self.salary_recomend)
+
+    class Meta:
+        verbose_name = 'Рекомендуемая зарплата'
+        verbose_name_plural = 'Рекомендуемые зарплаты'
+
+
 class Specialization(models.Model):
     name = models.CharField('Название', max_length=256, unique=True)
-    skills = models.ManyToManyField(
+    skills_recomend = models.ManyToManyField(
         Skill,
         through='SkillSpecialization',
-        verbose_name='Навыки',
+        verbose_name='Навыки специальности',
+    )
+    # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
+    salary_recomend = models.ManyToManyField(  # чекчек
+        Salaryrecomend,
+        through='SalaryrecomendTown',
+        verbose_name='Зарплаты по специальностям в городах',
     )
 
     def __str__(self):
@@ -36,10 +59,28 @@ class Specialization(models.Model):
         verbose_name_plural = 'Специальности'
 
 
-class Towns(TemplateName):
+class SalaryrecomendTown(models.Model):
+    town_id = models.ForeignKey(
+        Towns,
+        on_delete=models.CASCADE, ###
+        verbose_name='Город'
+    )
+    specialization_id = models.ForeignKey(
+        Specialization,
+        on_delete=models.CASCADE, ###
+        verbose_name='Специльность'
+    )
+    # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
+    salary_recomend = models.ForeignKey(
+        Salaryrecomend,
+        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        verbose_name='Рекомендуемые зарплаты по специальности',
+    )
+
     class Meta:
-        verbose_name = 'Город'
-        verbose_name_plural = 'Города'
+        verbose_name = 'Рекомендуемые зарплаты по специальностям в городах'
+        verbose_name_plural = 'Рекомендуемые зарплаты по специальностям в городах'
+        ordering = ('specialization_id',)
 
 
 class Experience(TemplateName):
@@ -313,12 +354,12 @@ class ExpectationsApplication(models.Model):
 class SkillSpecialization(models.Model):
     specialization_id = models.ForeignKey(
         Specialization,
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE, ###
         verbose_name='Специальность'
     )
     skill_id = models.ForeignKey(
         Skill,
-        on_delete=models.PROTECT,
+        on_delete=models.PROTECT, ###
         verbose_name='Навык'
     )
 

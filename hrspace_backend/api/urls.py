@@ -5,13 +5,14 @@ from api.views import (ApplicationViewSet,
                        SpecializationViewSet,
                        TownsViewSet,
                        SkillViewSet,
-                       LanguageViewSet)
+                       LanguageViewSet,
+                       SalaryViewSet)
 
 v1_router = DefaultRouter()
 v1_router.register(
-    'spaces', # поменять на app
+    'spaces',  # поменять на app
     ApplicationViewSet,
-    basename='spaces') # поменять на app
+    basename='spaces')  # поменять на app
 
 # для тестов. проверить, будет ли на фронте без урла работать istartswith
 v1_router.register(
@@ -33,6 +34,11 @@ v1_router.register(
     'language',
     LanguageViewSet,
     basename='language')
+
+v1_router.register(
+    'salary',
+    SalaryViewSet,
+    basename='salary')
 
 
 urlpatterns = [
