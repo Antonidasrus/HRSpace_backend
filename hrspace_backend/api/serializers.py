@@ -49,15 +49,3 @@ class SalarySerializer(ModelSerializer):
     class Meta:
         model = Salaryrecomend
         fields = ('id', 'salary_recomend')
-
-#     def to_representation(self, instance):
-#         queryset = self.instance
-#         total_salary = sum(salary.salary_recomend for salary in queryset)
-#         average_salary = total_salary / queryset.count() if queryset.count() > 0 else 0
-#         if isinstance(queryset, list) and len(queryset) > 0:
-#             return [{'average_salary_recomend': average_salary}]
-#         return {'average_salary_recomend': average_salary}
-
-
-class AverageSalarySerializer(serializers.Serializer):
-    average_salary_recomend = serializers.DecimalField(max_digits=10, decimal_places=2)

@@ -11,10 +11,9 @@ from .serializers import (ApplicationSerializer,
                           LanguageSerializer,
                           SkillSerializer,
                           SalarySerializer,
-                          AverageSalarySerializer
                           )
 from .utils import istartswith_search
-from rest_framework.response import Response
+from django.db.models import Avg
 
 
 
@@ -72,15 +71,9 @@ class SalaryViewSet(ModelViewSet):
         # name = 'Палк' # начало названия города
         if name:
             queryset = queryset.filter(salaryrecomendtown__town_id__name__istartswith=name)
-        # print(queryset)
-        # print('aaaaaaaaa')
-        # if len(queryset)>1
-        total_salary = sum(salary.salary_recomend for salary in queryset)
-        average_salary = total_salary / queryset.count() if queryset.count() > 0 else 0
-        # queryset = {'salary_recomend': average_salary}
-        queryset = AverageSalarySerializer({'average_salary_recomend': average_salary})
-        # return Response(serializer.data)
-        return queryset
+        average_salary = queryset.aggregate(average_salary=Avg('salary_recomend'))['average_salary']
+        created_salary_recomend = Salaryrecomend(salary_recomend=average_salary)
+        return [created_salary_recomend]
 
 
 class ApplicationViewSet(ModelViewSet):
