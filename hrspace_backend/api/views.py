@@ -14,7 +14,8 @@ from .serializers import (ApplicationSerializer,
                           )
 from .utils import istartswith_search
 from django.db.models import Avg
-
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class SpecializationViewSet(ModelViewSet):
@@ -80,3 +81,19 @@ class SalaryViewSet(ModelViewSet):
 class ApplicationViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
+
+    # def perform_create(self, serializer):
+    #     if 'drafts' in self.request.path:
+    #         appstatus_id = 'draft'
+    #     else:
+    #         appstatus_id = 'active'
+
+    #     # Добавляем appstatus в данные перед сохранением объекта
+    #     serializer.save(appstatus_id=appstatus_id)
+
+    # # Метод для возврата корректного статуса HTTP в случае успеха
+    # def create(self, request, *args, **kwargs):
+    #     response = super().create(request, *args, **kwargs)
+    #     if response.status_code == status.HTTP_201_CREATED:
+    #         return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
+    #     return response
