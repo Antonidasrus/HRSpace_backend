@@ -14,8 +14,8 @@ from .serializers import (ApplicationSerializer,
                           )
 from .utils import istartswith_search
 from django.db.models import Avg
-from rest_framework.response import Response
-from rest_framework import status
+# from rest_framework.response import Response
+# from rest_framework import status
 
 
 class SpecializationViewSet(ModelViewSet):
@@ -51,10 +51,12 @@ class SkillViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        specialization_name = self.request.query_params.get('specialization_name')
+        specialization_name = self.request.query_params.get(
+            'specialization_name')
         # specialization_name = 'кодер'
         if specialization_name:
-            queryset = queryset.filter(specialization__name=specialization_name)
+            queryset = queryset.filter(
+                specialization__name=specialization_name)
         return istartswith_search(queryset, self)
 
 
@@ -64,18 +66,24 @@ class SalaryViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        specialization_name = self.request.query_params.get('specialization_name')
+        specialization_name = self.request.query_params.get(
+            'specialization_name')
         # specialization_name = 'кодер'
         if specialization_name:
-            queryset = queryset.filter(specialization__name=specialization_name)
+            queryset = queryset.filter(
+                specialization__name=specialization_name)
         name = self.request.query_params.get('name')
         # name = 'Палк' # начало названия города
         if name:
-            queryset = queryset.filter(salaryrecomendtown__town_id__name__istartswith=name)
-        average_salary = queryset.aggregate(average_salary=Avg('salary_recomend'))['average_salary']
-        created_salary_recomend = Salaryrecomend(salary_recomend=average_salary)
+            queryset = queryset.filter(
+                salaryrecomendtown__town_id__name__istartswith=name)
+        average_salary = queryset.aggregate(average_salary=Avg(
+            'salary_recomend'))['average_salary']
+        created_salary_recomend = Salaryrecomend(
+            salary_recomend=average_salary)
         return [created_salary_recomend]
-# проверить, что попсле выбора города, берет данные по нему, и уже не использует istartswith
+# проверить, что попсле выбора города,
+# берет данные по нему, и уже не использует istartswith
 
 
 class ApplicationViewSet(ModelViewSet):
@@ -95,5 +103,6 @@ class ApplicationViewSet(ModelViewSet):
     # def create(self, request, *args, **kwargs):
     #     response = super().create(request, *args, **kwargs)
     #     if response.status_code == status.HTTP_201_CREATED:
-    #         return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
+    #         return Response(
+    # {'status': 'success'}, status=status.HTTP_201_CREATED)
     #     return response

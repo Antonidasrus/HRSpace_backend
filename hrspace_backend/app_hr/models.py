@@ -40,7 +40,7 @@ class Application_hr(models.Model):
         ordering = ('created',)
 
     def __str__(self):
-        return self.name    
+        return self.name
 
 
 class WaitApplication(models.Model):

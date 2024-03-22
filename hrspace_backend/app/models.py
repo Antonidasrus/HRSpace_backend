@@ -3,6 +3,7 @@ from django.db import models
 from users.models import User
 from django.core.exceptions import ValidationError
 
+
 class TemplateName(models.Model):
     name = models.CharField('Название', max_length=256, unique=True)
 
@@ -75,12 +76,12 @@ class Specialization(models.Model):
 class SalaryrecomendTown(models.Model):
     town_id = models.ForeignKey(
         Towns,
-        on_delete=models.CASCADE, ###
+        on_delete=models.CASCADE,  #
         verbose_name='Город'
     )
     specialization_id = models.ForeignKey(
         Specialization,
-        on_delete=models.CASCADE, ###
+        on_delete=models.CASCADE,  #
         verbose_name='Специльность'
     )
     # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
@@ -92,7 +93,7 @@ class SalaryrecomendTown(models.Model):
 
     class Meta:
         verbose_name = 'Рекомендуемые зарплаты по специальностям в городах'
-        verbose_name_plural = 'Рекомендуемые зарплаты по специальностям в городах'
+        verbose_name_plural = 'Рекомендуемые зарплаты по спец-тям в городах'
         ordering = ('specialization_id',)
 
 
@@ -400,12 +401,12 @@ class ExpectationsApplication(models.Model):
 class SkillSpecialization(models.Model):
     specialization_id = models.ForeignKey(
         Specialization,
-        on_delete=models.CASCADE, ###
+        on_delete=models.CASCADE,  #
         verbose_name='Специальность'
     )
     skill_id = models.ForeignKey(
         Skill,
-        on_delete=models.PROTECT, ###
+        on_delete=models.PROTECT,  #
         verbose_name='Навык'
     )
 
