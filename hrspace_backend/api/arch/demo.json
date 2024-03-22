@@ -1,0 +1,50 @@
+{
+    "id": 1,
+    "date": "2024-03-20",
+    "mission": true,
+    "bonus": false,
+    "salary_min": 45,
+    "salary_max": 110,
+    "responsibilities": "печь пирожки",
+    "other_requirements": "other_requirements",
+    "candidates_count": 1,
+    "recruiter_count": 3,
+    "award": 50000,
+    "name": "плотник",
+    "employer_id": 1,
+    "specialization": "плотник",
+    "towns": "Калуга",
+    "experience": "без опыта",
+    "education": "среднее",
+    "payments": "100% после выхода на работу",
+    "skills": [
+        "есть",
+        "пить"
+    ],
+    "languages": [
+        {
+            "id": 3,
+            "name": "Английский",
+            "level": "B1"
+        },
+        {
+            "id": 3,
+            "name": "Испанский",
+            "level": "A1"
+        }
+    ],
+    "registration": [
+        "текст"
+    ],
+    "occupation": [
+        "текст",
+        "текст"
+    ],
+    "timetable": [
+        "текст"
+    ],
+    "expectations": [
+        "текст",
+        "текст"
+    ]
+}

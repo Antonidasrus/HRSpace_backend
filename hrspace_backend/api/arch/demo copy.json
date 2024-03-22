@@ -1,0 +1,41 @@
+{
+    "id": 1,
+    "date": "2024-03-20",
+    "mission": true,
+    "bonus": false,
+    "salary_min": 45,
+    "salary_max": 110,
+    "responsibilities": "печь пирожки",
+    "other_requirements": "other_requirements",
+    "candidates_count": 1,
+    "recruiter_count": 3,
+    "award": 50000,
+    "name": "плотник",
+    "employer_id": 1,
+    "specialization": 1,
+    "towns": 1,
+    "experience": 2,
+    "education": 1,
+    "payments": 1,
+    "skills": [
+        1,
+        2,
+        3
+    ],
+    "languages": [
+        1
+    ],
+    "registration": [
+        3
+    ],
+    "occupation": [
+        4,
+        1
+    ],
+    "timetable": [
+        1
+    ],
+    "expectations": [
+        1
+    ]
+}
