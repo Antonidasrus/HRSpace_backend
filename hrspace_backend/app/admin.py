@@ -21,7 +21,9 @@ from .models import (
     OccupationApplication,
     RegistrationApplication,
     ExpectationsApplication,
-    SkillSpecialization
+    SkillSpecialization,
+    Salaryrecomend,
+    SalaryrecomendTown
 )
 
 
@@ -92,6 +94,16 @@ class PaymentsAdmin(admin.ModelAdmin):
 
 @admin.register(SkillSpecialization)
 class SkillSpecialization(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Salaryrecomend)
+class Salaryrecomend(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SalaryrecomendTown)
+class SalaryrecomendTown(admin.ModelAdmin):
     pass
 
 

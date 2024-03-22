@@ -1,7 +1,12 @@
 from rest_framework.serializers import ModelSerializer
 # from rest_framework import serializers
 
-from app.models import Application, Specialization, Towns, Skill, Language
+from app.models import (Application,
+                        Specialization,
+                        Towns,
+                        Skill,
+                        Language,
+                        Salaryrecomend)
 
 
 class SpecializationSerializer(ModelSerializer):
@@ -42,5 +47,5 @@ class ApplicationSerializer(ModelSerializer):
 class SalarySerializer(ModelSerializer):
 
     class Meta:
-        model = Specialization
+        model = Salaryrecomend
         fields = ('id', 'salary_recomend')
