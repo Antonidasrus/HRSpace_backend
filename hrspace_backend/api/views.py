@@ -1,18 +1,31 @@
 from rest_framework.viewsets import ModelViewSet
+from datetime import datetime
+from rest_framework.views import APIView
 from app.models import (Application,
                         Specialization,
                         Towns,
                         Language,
                         Skill,
-                        Salaryrecomend)
-from .serializers import (ApplicationSerializer,
-                          SpecializationSerializer,
+                        Salaryrecomend,
+                        LanguageLevel,
+                        Experience,
+                        Education,
+                        Payments,
+                        Towns,
+                        Language,
+                        Registration,
+                        Schedule,
+                        Occupation,
+                        Expectations)
+from .serializers import (SpecializationSerializer,
+                          ApplicationSerializer,
                           TownsSerializer,
                           LanguageSerializer,
                           SkillSerializer,
                           SalarySerializer,
                           )
 from .utils import istartswith_search
+from rest_framework.response import Response
 from django.db.models import Avg
 # from rest_framework.response import Response
 # from rest_framework import status
@@ -106,3 +119,42 @@ class ApplicationViewSet(ModelViewSet):
     #         return Response(
     # {'status': 'success'}, status=status.HTTP_201_CREATED)
     #     return response
+
+
+class AllData(APIView):
+    def get(self, request):
+        skills_list = list(Skill.objects.values_list('name', flat=True))
+        specialization_list = list(Specialization.objects.values_list('name', flat=True))
+        experience_list = list(Experience.objects.values_list('name', flat=True))
+        education_list = list(Education.objects.values_list('name', flat=True))
+        payments_list = list(Payments.objects.values_list('name', flat=True))
+        towns_list = list(Towns.objects.values_list('name', flat=True))
+        languages_list = list(Language.objects.values_list('name', flat=True))
+        languages_levels_list = list(LanguageLevel.objects.values_list('name', flat=True))
+        registration_list = list(Registration.objects.values_list('name', flat=True))
+        occupation_list = list(Occupation.objects.values_list('name', flat=True))
+        timetable_list = list(Schedule.objects.values_list('name', flat=True))
+        expectations_list = list(Expectations.objects.values_list('name', flat=True))
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        return Response({
+            "specialization": specialization_list,
+            "towns": towns_list,
+            # salary
+            "experience": experience_list,
+            "education": education_list,
+            "skills": skills_list,
+            "languages": languages_list,
+            "languages_levels": languages_levels_list,
+            "registration": registration_list,
+            "occupation": occupation_list,
+            "timetable": timetable_list,
+            # mission
+            # bonus
+            "expectations": expectations_list,
+            "date": date,
+            # recruiter_count,
+            # candidates_count,
+            "payments": payments_list,
+            # award
+        })

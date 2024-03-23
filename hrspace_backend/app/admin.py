@@ -93,17 +93,17 @@ class PaymentsAdmin(admin.ModelAdmin):
 
 
 @admin.register(SkillSpecialization)
-class SkillSpecialization(admin.ModelAdmin):
+class SkillSpecializationAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Salaryrecomend)
-class Salaryrecomend(admin.ModelAdmin):
+class SalaryrecomendAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(SalaryrecomendTown)
-class SalaryrecomendTown(admin.ModelAdmin):
+class SalaryrecomendTownAdmin(admin.ModelAdmin):
     pass
 
 
