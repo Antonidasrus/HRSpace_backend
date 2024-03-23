@@ -78,3 +78,5 @@ jobs:
                   echo DB_PORT=${{ secrets.DB_PORT }} >> .env
                   echo DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} >> .env
                   sudo docker-compose up -d
+                  sudo docker-compose exec backend python manage.py makemigrations
+                  sudo docker-compose exec backend python manage.py migrate
