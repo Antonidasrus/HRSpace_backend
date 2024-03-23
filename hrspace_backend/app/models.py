@@ -307,11 +307,13 @@ class LanguageApplication(models.Model):
     application_id = models.ForeignKey(
         Application,
         on_delete=models.CASCADE,
+        related_name="language_list",
         verbose_name='Заявка'
     )
     language_id = models.ForeignKey(
         Language,
         on_delete=models.PROTECT,
+        related_name="language_list",
         verbose_name='Язык'
     )
     language_level = models.ForeignKey(
