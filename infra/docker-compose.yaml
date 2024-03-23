@@ -8,7 +8,8 @@ services:
     env_file:
       - ./.env
   backend:
-    build: ../hrspace_backend/
+    # build: ../hrspace_backend/
+    image: "${DOCKER_USERNAME}/hrspace_backend:latest"
     restart: always
     volumes:
       - static_value:/app/static/
