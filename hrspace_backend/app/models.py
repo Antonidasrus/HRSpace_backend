@@ -2,6 +2,21 @@ from django.db import models
 
 from users.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+class MissionChoices(models.IntegerChoices):
+    no = 0, 'Нет'
+    yes = 1, 'Да'
+
+
+class BonusChoices(models.IntegerChoices):
+    no = 0, 'Нет'
+    yes = 1, 'Да'
+
+
+CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
+RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
 
 class TemplateName(models.Model):
@@ -165,13 +180,17 @@ class Application(models.Model):
     )
 
     # юзер ставит галочку или нет
-    mission = models.BooleanField(
+    mission = models.PositiveSmallIntegerField(
         verbose_name='Командировки',
-        null=True
+        choices=MissionChoices.choices,
+        null=True,
+        blank=True
     )  # или поменять на выбор из нескольких?
-    bonus = models.BooleanField(
+    bonus = models.PositiveSmallIntegerField(
         verbose_name='Бонусы от работодателя',
-        null=True
+        choices=BonusChoices.choices,
+        null=True,
+        blank=True
     )
 
     # юзер вводит значения вручную
@@ -196,14 +215,22 @@ class Application(models.Model):
         verbose_name='Дополнительные требования',
         blank=True
     )
-    candidates_count = models.PositiveIntegerField(
-        verbose_name='Количество кандидатов'
+    candidates_count = models.PositiveSmallIntegerField(
+        verbose_name='Количество кандидатов',
+        validators=[
+            MinValueValidator(CANDIDATES_COUNT_CHOICES[0]),
+            MaxValueValidator(CANDIDATES_COUNT_CHOICES[-1])
+        ]
     )
     date_employment = models.DateField(
         verbose_name='Дата выхода сотрудника'
     )
-    recruiter_count = models.PositiveIntegerField(
-        verbose_name='Количество рекрутеров'
+    recruiter_count = models.PositiveSmallIntegerField(
+        verbose_name='Количество рекрутеров',
+        validators=[
+            MinValueValidator(RECRUITER_COUNT_CHOICES[0]),
+            MaxValueValidator(RECRUITER_COUNT_CHOICES[-1])
+        ]
     )
     award = models.PositiveIntegerField(
         verbose_name='Вознаграждение рекрутера'
@@ -281,13 +308,17 @@ class Application(models.Model):
 
     def clean(self):
         if not self.salary_min and not self.salary_max:
-            raise ValidationError(
-                'Пожалуйста, заполните salary_min или salary_max'
-            )
-
+            raise ValidationError({
+                'salary_max': 'Пожалуйста, заполните salary_min или salary_max',
+                'salary_min': 'Пожалуйста, заполните salary_min или salary_max'
+            })
+        if self.salary_min > self.salary_max:
+            raise ValidationError({
+                'salary_min': 'Минимальная зарплата не может быть больше максимальной'
+            })
         if self.bonus:
             raise ValidationError(
-                'Пожалуйста заполните bonus_description'
+                {'bonus_description': 'Пожалуйста заполните bonus_description'}
             )
 
     def __str__(self):

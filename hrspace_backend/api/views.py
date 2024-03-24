@@ -16,7 +16,11 @@ from app.models import (Application,
                         Registration,
                         Schedule,
                         Occupation,
-                        Expectations)
+                        Expectations,
+                        BonusChoices,
+                        MissionChoices,
+                        CANDIDATES_COUNT_CHOICES,
+                        RECRUITER_COUNT_CHOICES)
 from .serializers import (SpecializationSerializer,
                           ApplicationSerializer,
                           TownsSerializer,
@@ -149,12 +153,12 @@ class AllData(APIView):
             "registration": registration_list,
             "occupation": occupation_list,
             "timetable": timetable_list,
-            # mission
-            # bonus
+            "mission": MissionChoices.choices,
+            "bonus": BonusChoices.choices,
             "expectations": expectations_list,
             "date": date,
-            # recruiter_count,
-            # candidates_count,
+            "recruiter_count": RECRUITER_COUNT_CHOICES,
+            "candidates_count": CANDIDATES_COUNT_CHOICES,
             "payments": payments_list,
             # award
         })
