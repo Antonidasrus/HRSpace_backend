@@ -159,7 +159,7 @@ class Application(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Работодатель',
     )
-    date = models.DateField(
+    date = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата публикации',
     )
@@ -177,14 +177,20 @@ class Application(models.Model):
     # юзер вводит значения вручную
     salary_min = models.PositiveBigIntegerField(
         verbose_name='Минимальная зарплата',
+        null=True,
         blank=True
     )
     salary_max = models.PositiveBigIntegerField(
         verbose_name='Максимальня зараплта',
+        null=True,
         blank=True
     )
     responsibilities = models.TextField(
         verbose_name='Обязанности сотрудника'
+    )
+    bonus_description = models.TextField(
+        verbose_name='Описание бонусов от работодателя',
+        blank=True
     )
     other_requirements = models.TextField(
         verbose_name='Дополнительные требования',
@@ -192,6 +198,9 @@ class Application(models.Model):
     )
     candidates_count = models.PositiveIntegerField(
         verbose_name='Количество кандидатов'
+    )
+    date_employment = models.DateField(
+        verbose_name='Дата выхода сотрудника'
     )
     recruiter_count = models.PositiveIntegerField(
         verbose_name='Количество рекрутеров'
@@ -274,6 +283,11 @@ class Application(models.Model):
         if not self.salary_min and not self.salary_max:
             raise ValidationError(
                 'Пожалуйста, заполните salary_min или salary_max'
+            )
+
+        if self.bonus:
+            raise ValidationError(
+                'Пожалуйста заполните bonus_description'
             )
 
     def __str__(self):
