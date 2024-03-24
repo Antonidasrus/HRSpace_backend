@@ -3,18 +3,10 @@ from django.db import models
 from users.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 
-class MissionChoices(models.IntegerChoices):
-    no = 0, 'Нет'
-    yes = 1, 'Да'
-
-
-class BonusChoices(models.IntegerChoices):
-    no = 0, 'Нет'
-    yes = 1, 'Да'
-
-
+BOOLEAN_CHOICES = ('Нет', 'Да')
 CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
@@ -182,15 +174,15 @@ class Application(models.Model):
     )
 
     # юзер ставит галочку или нет
-    mission = models.PositiveSmallIntegerField(
+    mission = models.BooleanField(
         verbose_name='Командировки',
-        choices=MissionChoices.choices,
+        # choices=MissionChoices.choices,
         null=True,
         blank=True
     )  # или поменять на выбор из нескольких?
-    bonus = models.PositiveSmallIntegerField(
+    bonus = models.BooleanField(
         verbose_name='Бонусы от работодателя',
-        choices=BonusChoices.choices,
+        # choices=BonusChoices.choices,
         null=True,
         blank=True
     )
@@ -225,7 +217,7 @@ class Application(models.Model):
         ]
     )
     date_employment = models.DateField(
-        verbose_name='Дата выхода сотрудника'
+        verbose_name='Дата выхода сотрудника',
     )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name='Количество рекрутеров',
@@ -318,9 +310,13 @@ class Application(models.Model):
             raise ValidationError({
                 'salary_min': 'Минимальная зарплата не может быть больше максимальной'
             })
-        if self.bonus:
+        if self.bonus: # сделать в отельную валидацию 
             raise ValidationError(
                 {'bonus_description': 'Пожалуйста заполните bonus_description'}
+            )
+        if self.date_employment <= timezone.datetime.now().date() + timezone.timedelta(3): # сделать в отельную валидацию 
+            raise ValidationError(
+                {'date_employment': 'Дата должна быть больше текущей даты на три дня'}
             )
 
     def __str__(self):
