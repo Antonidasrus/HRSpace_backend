@@ -87,7 +87,7 @@ class SalaryViewSet(ModelViewSet):
                 specialization__name=specialization_name)
         name = self.request.query_params.get('name')
         # name = 'Палк' # начало названия города
-        if name:
+        if name:  # поменять на town
             queryset = queryset.filter(
                 salaryrecomendtown__town_id__name__istartswith=name)
         average_salary = queryset.aggregate(average_salary=Avg(
@@ -153,7 +153,7 @@ class AllData(APIView):
             # bonus
             "expectations": expectations_list,
             "date": date,
-            # recruiter_count,
+            # recruiter_count: COUNT_RECRUTER,
             # candidates_count,
             "payments": payments_list,
             # award
