@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from rest_framework import serializers, relations
+from rest_framework import serializers
 
 from app.models import (Application,
 
@@ -132,9 +132,7 @@ class ExpectationsSerializer(serializers.ModelSerializer):
 
 
 class LanguageApplicationSerializer(serializers.ModelSerializer):
-    # language_level = serializers.CharField(source='language_level.name')
     id = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
-    # language_level = serializers.IntegerField(source='language_level')
     language_level = serializers.CharField()
 
     class Meta:
@@ -171,7 +169,6 @@ class ApplicationSerializer(ModelSerializer):
         many=True)
 
     languages = LanguageApplicationSerializer(many=True, source="language_list")
-    # languages = LanguageSerializer(many=True)
 
     def create(self, validated_data):
         specialization_name = validated_data.pop('specialization', {}).get('name')
@@ -210,11 +207,8 @@ class ApplicationSerializer(ModelSerializer):
         application.expectations.set(Expectations.objects.filter(name__in=expectations_data))
 
         language_application_list = []
+
         for language_data in languages_data:
-            print(language_data)
-            # name = language_data['name']
-            # language_id, _ = Language.objects.get_or_create(name=name)
-            # language_id = language_id.id
             language_id = language_data['id']
             language_level = language_data['language_level']
             language_level, _ = LanguageLevel.objects.get_or_create(name=language_level)
