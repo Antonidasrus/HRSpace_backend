@@ -135,7 +135,7 @@ class AllData(APIView):
         occupation_list = list(Occupation.objects.values_list('name', flat=True))
         timetable_list = list(Schedule.objects.values_list('name', flat=True))
         expectations_list = list(Expectations.objects.values_list('name', flat=True))
-        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        date = datetime.now().strftime("%Y-%m-%d")
 
         return Response({
             "specialization": specialization_list,

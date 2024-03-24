@@ -17,7 +17,8 @@ from app.models import (Application,
 
                         Language,
                         Salaryrecomend,
-                        LanguageApplication
+                        LanguageApplication,
+                        LanguageLevel
                         )
 
 
@@ -63,8 +64,8 @@ class TownsSerializer(ModelSerializer):
 class LanguageSerializer(ModelSerializer):
     class Meta:
         model = Language
-        # fields = '__all__'
-        fields = ('name',)
+        fields = '__all__'
+        # fields = ('name',)
 
 '''
 class SpecializationSerializer(ModelSerializer):
@@ -132,10 +133,13 @@ class ExpectationsSerializer(serializers.ModelSerializer):
 
 class LanguageApplicationSerializer(serializers.ModelSerializer):
     # language_level = serializers.CharField(source='language_level.name')
+    id = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
+    # language_level = serializers.IntegerField(source='language_level')
+    language_level = serializers.CharField()
 
     class Meta:
         model = LanguageApplication
-        fields = ('language_id', 'language_level')
+        fields = ('id', 'language_level')
 
 
 class ApplicationSerializer(ModelSerializer):
@@ -182,6 +186,8 @@ class ApplicationSerializer(ModelSerializer):
         timetable_data = validated_data.pop('timetable', [])
         expectations_data = validated_data.pop('expectations', [])
 
+        languages_data = validated_data.pop('language_list', [{}])
+
         specialization_instance, _ = Specialization.objects.get_or_create(name=specialization_name)
         experience_instance, _ = Experience.objects.get_or_create(name=experience_name)
         education_instance, _ = Education.objects.get_or_create(name=education_name)
@@ -202,6 +208,22 @@ class ApplicationSerializer(ModelSerializer):
         application.occupation.set(Occupation.objects.filter(name__in=occupation_data))
         application.timetable.set(Schedule.objects.filter(name__in=timetable_data))
         application.expectations.set(Expectations.objects.filter(name__in=expectations_data))
+
+        language_application_list = []
+        for language_data in languages_data:
+            print(language_data)
+            # name = language_data['name']
+            # language_id, _ = Language.objects.get_or_create(name=name)
+            # language_id = language_id.id
+            language_id = language_data['id']
+            language_level = language_data['language_level']
+            language_level, _ = LanguageLevel.objects.get_or_create(name=language_level)
+            language_application_list.append(LanguageApplication(
+                language_id=language_id,
+                application_id=application,
+                language_level=language_level
+            ))
+        LanguageApplication.objects.bulk_create(language_application_list)
 
         return application
 
