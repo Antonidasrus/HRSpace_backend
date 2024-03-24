@@ -18,6 +18,8 @@ class BonusChoices(models.IntegerChoices):
 CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
+COUNT_RECRUTER = [1, 2, 3]
+
 
 class TemplateName(models.Model):
     name = models.CharField('Название', max_length=256, unique=True)
@@ -237,11 +239,6 @@ class Application(models.Model):
     )
 
     # юзер выбирает одно из списка. или добавляет свое
-    # appstatus = models.ForeignKey(
-    #     Appstatus,
-    #     on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
-    #     verbose_name='Статус заявки',
-    # )
     name = models.CharField(
         default='Новая заявка',
         max_length=256,
@@ -272,6 +269,11 @@ class Application(models.Model):
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
         verbose_name='Варианты выплат рекрутеру',
     )
+    # appstatus = models.ForeignKey(
+    #     Appstatus,
+    #     on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+    #     verbose_name='Статус заявки',
+    # )
 
     # юзер выбирает несколько из списка
     skills = models.ManyToManyField(

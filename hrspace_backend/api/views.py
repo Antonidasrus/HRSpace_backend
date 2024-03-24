@@ -91,7 +91,7 @@ class SalaryViewSet(ModelViewSet):
                 specialization__name=specialization_name)
         name = self.request.query_params.get('name')
         # name = 'Палк' # начало названия города
-        if name:
+        if name:  # поменять на town
             queryset = queryset.filter(
                 salaryrecomendtown__town_id__name__istartswith=name)
         average_salary = queryset.aggregate(average_salary=Avg(
@@ -107,39 +107,34 @@ class ApplicationViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
-    # def perform_create(self, serializer):
-    #     if 'drafts' in self.request.path:
-    #         appstatus_id = 'draft'
-    #     else:
-    #         appstatus_id = 'active'
-
-    #     # Добавляем appstatus в данные перед сохранением объекта
-    #     serializer.save(appstatus_id=appstatus_id)
-
-    # # Метод для возврата корректного статуса HTTP в случае успеха
-    # def create(self, request, *args, **kwargs):
-    #     response = super().create(request, *args, **kwargs)
-    #     if response.status_code == status.HTTP_201_CREATED:
-    #         return Response(
-    # {'status': 'success'}, status=status.HTTP_201_CREATED)
-    #     return response
-
 
 class AllData(APIView):
     def get(self, request):
-        skills_list = list(Skill.objects.values_list('name', flat=True))
-        specialization_list = list(Specialization.objects.values_list('name', flat=True))
-        experience_list = list(Experience.objects.values_list('name', flat=True))
-        education_list = list(Education.objects.values_list('name', flat=True))
-        payments_list = list(Payments.objects.values_list('name', flat=True))
-        towns_list = list(Towns.objects.values_list('name', flat=True))
-        languages_list = list(Language.objects.values_list('name', flat=True))
-        languages_levels_list = list(LanguageLevel.objects.values_list('name', flat=True))
-        registration_list = list(Registration.objects.values_list('name', flat=True))
-        occupation_list = list(Occupation.objects.values_list('name', flat=True))
-        timetable_list = list(Schedule.objects.values_list('name', flat=True))
-        expectations_list = list(Expectations.objects.values_list('name', flat=True))
-        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        skills_list = list(
+            Skill.objects.values_list('name', flat=True))
+        specialization_list = list(
+            Specialization.objects.values_list('name', flat=True))
+        experience_list = list(
+            Experience.objects.values_list('name', flat=True))
+        education_list = list(
+            Education.objects.values_list('name', flat=True))
+        payments_list = list(
+            Payments.objects.values_list('name', flat=True))
+        towns_list = list(
+            Towns.objects.values_list('name', flat=True))
+        languages_list = list(
+            Language.objects.values_list('name', flat=True))
+        languages_levels_list = list(
+            LanguageLevel.objects.values_list('name', flat=True))
+        registration_list = list(
+            Registration.objects.values_list('name', flat=True))
+        occupation_list = list(
+            Occupation.objects.values_list('name', flat=True))
+        timetable_list = list(
+            Schedule.objects.values_list('name', flat=True))
+        expectations_list = list(
+            Expectations.objects.values_list('name', flat=True))
+        date = datetime.now().strftime("%Y-%m-%d")
 
         return Response({
             "specialization": specialization_list,

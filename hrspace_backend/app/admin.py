@@ -140,31 +140,31 @@ class ApplicationAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(SkillApplication)
-class SkillApplicationAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(SkillApplication)
+# class SkillApplicationAdmin(admin.ModelAdmin):
+#     pass
 
 
-@admin.register(LanguageApplication)
-class LanguageApplicationAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(LanguageApplication)
+# class LanguageApplicationAdmin(admin.ModelAdmin):
+#     pass
 
 
-@admin.register(ScheduleApplication)
-class ScheduleApplicationAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(ScheduleApplication)
+# class ScheduleApplicationAdmin(admin.ModelAdmin):
+#     pass
 
 
-@admin.register(OccupationApplication)
-class OccupationApplicationAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(OccupationApplication)
+# class OccupationApplicationAdmin(admin.ModelAdmin):
+#     pass
 
 
-@admin.register(RegistrationApplication)
-class RegistrationApplicationAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(RegistrationApplication)
+# class RegistrationApplicationAdmin(admin.ModelAdmin):
+#     pass
 
 
-@admin.register(ExpectationsApplication)
-class ExpectationsApplicationAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(ExpectationsApplication)
+# class ExpectationsApplicationAdmin(admin.ModelAdmin):
+#     pass
