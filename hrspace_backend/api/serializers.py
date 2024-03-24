@@ -63,7 +63,8 @@ class TownsSerializer(ModelSerializer):
 class LanguageSerializer(ModelSerializer):
     class Meta:
         model = Language
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ('name',)
 
 '''
 class SpecializationSerializer(ModelSerializer):
@@ -129,6 +130,14 @@ class ExpectationsSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 
+class LanguageApplicationSerializer(serializers.ModelSerializer):
+    # language_level = serializers.CharField(source='language_level.name')
+
+    class Meta:
+        model = LanguageApplication
+        fields = ('language_id', 'language_level')
+
+
 class ApplicationSerializer(ModelSerializer):
     specialization = serializers.CharField(source='specialization.name')
     experience = serializers.CharField(source='experience.name')
@@ -156,12 +165,8 @@ class ApplicationSerializer(ModelSerializer):
         queryset=Expectations.objects.all(),
         slug_field='name',
         many=True)
-    # registration = serializers.StringRelatedField(many=True)
-    # occupation = serializers.StringRelatedField(many=True)
-    # timetable = serializers.StringRelatedField(many=True)
-    # expectations = serializers.StringRelatedField(many=True)
 
-    # # languages = LanguageSerializer(many=True, source="language_list")
+    languages = LanguageApplicationSerializer(many=True, source="language_list")
     # languages = LanguageSerializer(many=True)
 
     def create(self, validated_data):
@@ -199,6 +204,26 @@ class ApplicationSerializer(ModelSerializer):
         application.expectations.set(Expectations.objects.filter(name__in=expectations_data))
 
         return application
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        languages = instance.languages.all()
+        languages_data = []
+
+        for language in languages:
+            language_data = LanguageSerializer(language).data
+            language_application = LanguageApplication.objects.filter(
+                application_id=instance.id,
+                language_id=language.id
+            ).first()
+            if language_application:
+                language_data['language_level'] = language_application.language_level.name
+            languages_data.append(language_data)
+
+        data['languages'] = languages_data
+
+        return data
 
     class Meta:
         model = Application
