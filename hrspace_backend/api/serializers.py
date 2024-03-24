@@ -103,6 +103,32 @@ class SkillSerializer(ModelSerializer):
         fields = ('name',)
 
 
+class RegistrationSerializer(ModelSerializer):
+
+    class Meta:
+        model = Registration
+        # fields = '__all__'
+        fields = ('name',)
+
+
+class OccupationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Occupation
+        fields = ('name',)
+
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = ('name',)
+
+
+class ExpectationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Expectations
+        fields = ('name',)
+
+
 class ApplicationSerializer(ModelSerializer):
     specialization = serializers.CharField(source='specialization.name')
     experience = serializers.CharField(source='experience.name')
@@ -110,15 +136,26 @@ class ApplicationSerializer(ModelSerializer):
     payments = serializers.CharField(source='payments.name')
     towns = serializers.CharField(source='towns.name')
 
-    # skills = SkillSerializer(many=True, source='skills_set')
-    # skills = SkillSerializer(many=True, read_only=True)
-    # skills = serializers.StringRelatedField(many=True)
-    # skills = serializers.PrimaryKeyRelatedField(queryset=Skill.objects.all(), many=True)
     skills = serializers.SlugRelatedField(
         queryset=Skill.objects.all(),
         slug_field='name',
-        many=True
-    )
+        many=True)
+    registration = serializers.SlugRelatedField(
+        queryset=Registration.objects.all(),
+        slug_field='name',
+        many=True)
+    occupation = serializers.SlugRelatedField(
+        queryset=Occupation.objects.all(),
+        slug_field='name',
+        many=True)
+    timetable = serializers.SlugRelatedField(
+        queryset=Schedule.objects.all(),
+        slug_field='name',
+        many=True)
+    expectations = serializers.SlugRelatedField(
+        queryset=Expectations.objects.all(),
+        slug_field='name',
+        many=True)
     # registration = serializers.StringRelatedField(many=True)
     # occupation = serializers.StringRelatedField(many=True)
     # timetable = serializers.StringRelatedField(many=True)
@@ -134,7 +171,11 @@ class ApplicationSerializer(ModelSerializer):
         payments_name = validated_data.pop('payments', {}).get('name')
         towns_name = validated_data.pop('towns', {}).get('name')
 
-        skills_data = validated_data.pop('skills')
+        skills_data = validated_data.pop('skills', [])
+        registration_data = validated_data.pop('registration', [])
+        occupation_data = validated_data.pop('occupation', [])
+        timetable_data = validated_data.pop('timetable', [])
+        expectations_data = validated_data.pop('expectations', [])
 
         specialization_instance, _ = Specialization.objects.get_or_create(name=specialization_name)
         experience_instance, _ = Experience.objects.get_or_create(name=experience_name)
@@ -150,7 +191,13 @@ class ApplicationSerializer(ModelSerializer):
             towns=towns_instance,
             **validated_data
         )
-        application.skills.set(Skill.objects.filter(name__in=skills_data))
+
+        application.skills.set(Skill.objects.filter(name__in=skills_data),)
+        application.registration.set(Registration.objects.filter(name__in=registration_data))
+        application.occupation.set(Occupation.objects.filter(name__in=occupation_data))
+        application.timetable.set(Schedule.objects.filter(name__in=timetable_data))
+        application.expectations.set(Expectations.objects.filter(name__in=expectations_data))
+
         return application
 
     class Meta:
