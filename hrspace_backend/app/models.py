@@ -201,10 +201,10 @@ class Application(models.Model):
     responsibilities = models.TextField(
         verbose_name='Обязанности сотрудника'
     )
-    bonus_description = models.TextField(
-        verbose_name='Описание бонусов от работодателя',
-        blank=True
-    )
+    # bonus_description = models.TextField(
+    #     verbose_name='Описание бонусов от работодателя',
+    #     blank=True
+    # )
     other_requirements = models.TextField(
         verbose_name='Дополнительные требования',
         blank=True
