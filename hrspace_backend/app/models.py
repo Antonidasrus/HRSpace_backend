@@ -216,9 +216,9 @@ class Application(models.Model):
             MaxValueValidator(CANDIDATES_COUNT_CHOICES[-1])
         ]
     )
-    date_employment = models.DateField(
-        verbose_name='Дата выхода сотрудника',
-    )
+    # date_employment = models.DateField(
+    #     verbose_name='Дата выхода сотрудника',
+    # )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name='Количество рекрутеров',
         validators=[
