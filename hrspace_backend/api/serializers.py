@@ -99,6 +99,8 @@ class ApplicationSerializer(ModelSerializer):
     payments = serializers.CharField(source="payments.name")
     towns = serializers.CharField(source="towns.name")
 
+    date_employment = serializers.DateField(format="%d-%m-%Y")
+
     skills = serializers.SlugRelatedField(
         queryset=Skill.objects.all(), slug_field="name", many=True
     )
@@ -115,7 +117,7 @@ class ApplicationSerializer(ModelSerializer):
         queryset=Expectations.objects.all(), slug_field="name", many=True
     )
 
-    languages = LanguageApplicationSerializer(many=True, source="language_list")
+    languages = LanguageApplicationSerializer(required=False, many=True, source="language_list")
 
     def create(self, validated_data):
         specialization_name = validated_data.pop("specialization", {}).get("name")
@@ -123,7 +125,7 @@ class ApplicationSerializer(ModelSerializer):
         education_name = validated_data.pop("education", {}).get("name")
         payments_name = validated_data.pop("payments", {}).get("name")
         towns_name = validated_data.pop("towns", {}).get("name")
-
+        
         skills_data = validated_data.pop("skills", [])
         registration_data = validated_data.pop("registration", [])
         occupation_data = validated_data.pop("occupation", [])
@@ -163,20 +165,36 @@ class ApplicationSerializer(ModelSerializer):
 
         language_application_list = []
 
-        for language_data in languages_data:
-            language_id = language_data["id"]
-            language_level = language_data["language_level"]
-            language_level, _ = LanguageLevel.objects.get_or_create(name=language_level)
-            language_application_list.append(
-                LanguageApplication(
-                    language_id=language_id,
-                    application_id=application,
-                    language_level=language_level,
+        try:
+            for language_data in languages_data:
+                language_id = language_data["id"]
+                language_level = language_data["language_level"]
+                language_level, _ = LanguageLevel.objects.get_or_create(name=language_level)
+                language_application_list.append(
+                    LanguageApplication(
+                        language_id=language_id,
+                        application_id=application,
+                        language_level=language_level,
+                    )
                 )
-            )
-        LanguageApplication.objects.bulk_create(language_application_list)
-
+            LanguageApplication.objects.bulk_create(language_application_list)
+        except KeyError:
+            pass
         return application
+
+    def validate(self, data):
+        bonus = data['bonus']
+        if bonus:
+            try:
+                if data['bonus_description'] in '':
+                    raise serializers.ValidationError(
+                        {'bonus_description': ['Неможет быть пустым.']}
+                    )
+            except KeyError:
+                raise serializers.ValidationError(
+                    {'bonus_description': ['Обязательное поле.']}
+                )
+        return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -207,12 +225,14 @@ class ApplicationSerializer(ModelSerializer):
             "date",
             "mission",
             "bonus",
+            "bonus_description",
             "salary_min",
             "salary_max",
             "responsibilities",
             "other_requirements",
             "candidates_count",
             "recruiter_count",
+            'date_employment',
             "award",
             "name",
             "specialization",
