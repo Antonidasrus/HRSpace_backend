@@ -134,7 +134,7 @@ class ApplicationSerializer(ModelSerializer):
         expectations_data = validated_data.pop("expectations", [])
 
         languages_data = validated_data.pop("language_list", [{}])
-
+        
         specialization_instance, _ = Specialization.objects.get_or_create(
             name=specialization_name
         )
@@ -142,6 +142,16 @@ class ApplicationSerializer(ModelSerializer):
         education_instance, _ = Education.objects.get_or_create(name=education_name)
         payments_instance, _ = Payments.objects.get_or_create(name=payments_name)
         towns_instance, _ = Towns.objects.get_or_create(name=towns_name)
+
+        salary_min = validated_data.pop("salary_min", 0)
+        salary_max = validated_data.pop("salary_max", 0)
+        if salary_min == 0 and salary_max == 0:
+            raise serializers.ValidationError(
+                {
+                    "salary_max": ["Пожалуйста, заполните salary_min или salary_max"],
+                    "salary_min": ["Пожалуйста, заполните salary_min или salary_max"],
+                }
+            )
 
         application = Application.objects.create(
             specialization=specialization_instance,
@@ -184,17 +194,26 @@ class ApplicationSerializer(ModelSerializer):
         return application
 
     def validate(self, data):
-        bonus = data['bonus']
-        if bonus:
-            try:
-                if data['bonus_description'] in '':
-                    raise serializers.ValidationError(
-                        {'bonus_description': ['Неможет быть пустым.']}
-                    )
-            except KeyError:
+        try:
+            if data['salary_min'] > data['salary_max']:
                 raise serializers.ValidationError(
-                    {'bonus_description': ['Обязательное поле.']}
-                )
+                    {
+                        "salary_min": [(
+                            "Минимальная зарплата не может быть больше максимальной"
+                        )]
+                    })
+            if data['bonus']:
+                try:
+                    if data['bonus_description'] in '':
+                        raise serializers.ValidationError(
+                            {'bonus_description': ['Неможет быть пустым.']}
+                        )
+                except KeyError:
+                    raise serializers.ValidationError(
+                        {'bonus_description': ['Обязательное поле.']}
+                    )
+        except KeyError:
+            pass
         date_validator(data['date_employment'])
         return data
 
