@@ -1,11 +1,10 @@
 # HRSpace_backend
 
-[![CI](https://github.com/find-y/HRSpace_backend/actions/workflows/hrspace_workflow.yml/badge.svg?branch=master)](https://github.com/find-y/HRSpace_backend/actions/workflows/hrspace_workflow.yml)
+[![CI](https://github.com/find-y/HRSpace_backend/actions/workflows/hrspace_workflow.yml/badge.svg?branch=feature/deploy)](https://github.com/find-y/HRSpace_backend/actions/workflows/hrspace_workflow.yml)
 
 HRSpace - это API, разработанное специально для маркетплейса HRSpace с главной целью обновить и расширить возможности микросервис билдера заявки рекрутера. Наше API предлагает широкий спектр функций и инструментов, которые позволяют оптимизировать процесс создания заявок, делая его более гибким, эффективным и удобным
 
-(Просмотр API)[https://51.250.27.201/api/v1/]
-
+[Просмотр API](https://51.250.27.201/api/v1/)
 
 ## Запуск проекта:
 1. Клонируем проект.
@@ -65,8 +64,8 @@ docker-compose exec backend python manage.py collectstatic --no-input
 ```
 
 ## Документация:
-- (Swagger)[https://51.250.27.201/api/v1/docs/Swagger]
-- (Redoc)[https://51.250.27.201/api/v1/docs/Swagger] 
+- [Swagger](https://51.250.27.201/api/v1/docs/Swagger)
+- [Redoc](https://51.250.27.201/api/v1/docs/Redoc)
 
 ## Авторы:
 | Имя | GitHub |
