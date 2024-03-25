@@ -64,8 +64,8 @@ docker-compose exec backend python manage.py collectstatic --no-input
 ```
 
 ## Документация:
-- [Swagger](https://51.250.27.201/api/v1/docs/Swagger)
-- [Redoc](https://51.250.27.201/api/v1/docs/Redoc)
+- ### [Swagger](https://51.250.27.201/api/v1/docs/Swagger)
+- ### [Redoc](https://51.250.27.201/api/v1/docs/Redoc)
 
 ## Авторы:
 | Имя | GitHub |
