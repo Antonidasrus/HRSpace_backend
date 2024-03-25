@@ -303,21 +303,34 @@ class Application(models.Model):
     def clean(self):
         if not self.salary_min and not self.salary_max:
             raise ValidationError({
-                'salary_max': 'Пожалуйста, заполните salary_min или salary_max',
-                'salary_min': 'Пожалуйста, заполните salary_min или salary_max'
+                'salary_max': (
+                    'Пожалуйста, заполните salary_min или salary_max'
+                ),
+                'salary_min': (
+                    'Пожалуйста, заполните salary_min или salary_max'
+                ),
             })
-        if self.salary_min > self.salary_max:
-            raise ValidationError({
-                'salary_min': 'Минимальная зарплата не может быть больше максимальной'
-            })
-        if self.bonus: # сделать в отельную валидацию 
+        if self.salary_min and self.salary_max:
+            if self.salary_min > self.salary_max:
+                raise ValidationError({
+                    'salary_min': (
+                        'Минимальная зарплата'
+                        'не может быть больше максимальной'
+                    )
+                })
+        if self.bonus:
             raise ValidationError(
                 {'bonus_description': 'Пожалуйста заполните bonus_description'}
             )
-        if self.date_employment <= timezone.datetime.now().date() + timezone.timedelta(3): # сделать в отельную валидацию 
-            raise ValidationError(
-                {'date_employment': 'Дата должна быть больше текущей даты на три дня'}
-            )
+        if (
+            self.date_employment
+            <= timezone.datetime.now().date() + timezone.timedelta(3)
+        ):  # сделать в отельную валидацию
+            raise ValidationError({
+                'date_employment': (
+                    'Дата должна быть больше текущей даты на три дня'
+                )
+            })
 
     def __str__(self):
         return self.specialization.name
