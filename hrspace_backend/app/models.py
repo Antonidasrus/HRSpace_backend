@@ -189,6 +189,11 @@ class Application(models.Model):
     )
 
     # юзер вводит значения вручную
+    name = models.CharField(
+        default='Новая заявка',
+        max_length=256,
+        verbose_name='Название вакансии/заявки'
+    )
     salary_min = models.PositiveBigIntegerField(
         verbose_name='Минимальная зарплата',
         null=True,
@@ -232,11 +237,6 @@ class Application(models.Model):
     )
 
     # юзер выбирает одно из списка. или добавляет свое
-    name = models.CharField(
-        default='Новая заявка',
-        max_length=256,
-        verbose_name='Название вакансии/заявки'
-    )
     specialization = models.ForeignKey(
         Specialization,
         on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки

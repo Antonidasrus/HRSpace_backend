@@ -37,6 +37,21 @@ v1_router.register(
     basename='towns')
 
 v1_router.register(
+    'experience',
+    ExperienceViewSet,
+    basename='experience')
+
+v1_router.register(
+    'education',
+    EducationViewSet,
+    basename='education')
+
+v1_router.register(
+    'payments',
+    PaymentsViewSet,
+    basename='payments')
+
+v1_router.register(
     'skill',
     SkillViewSet,
     basename='skill')
@@ -47,9 +62,29 @@ v1_router.register(
     basename='language')
 
 v1_router.register(
-    'salary',
-    SalaryViewSet,
-    basename='salary')
+    'registration',
+    RegistrationViewSet,
+    basename='registration')
+
+v1_router.register(
+    'occupation',
+    OccupationViewSet,
+    basename='occupation')
+
+v1_router.register(
+    'timetable',
+    ScheduleViewSet,
+    basename='timetable')
+
+v1_router.register(
+    'expectations',
+    ExpectationsViewSet,
+    basename='expectations')
+
+v1_router.register(
+    'salaryrecomend',
+    SalaryRecommendViewSet,
+    basename='salaryrecomend')
 
 
 urlpatterns = [

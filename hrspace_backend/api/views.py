@@ -2,24 +2,27 @@ from rest_framework.viewsets import ModelViewSet
 from datetime import datetime
 from rest_framework.views import APIView
 from app.models import (Application,
+
                         Specialization,
                         Towns,
-                        Language,
-                        Skill,
-                        Salaryrecomend,
-                        LanguageLevel,
                         Experience,
                         Education,
                         Payments,
-                        Towns,
+
+                        Skill,
                         Language,
                         Registration,
-                        Schedule,
                         Occupation,
+                        Schedule,
                         Expectations,
+
+                        Salaryrecomend,
+                        LanguageLevel,
+
                         BOOLEAN_CHOICES,
                         CANDIDATES_COUNT_CHOICES,
                         RECRUITER_COUNT_CHOICES)
+
 from .serializers import (SpecializationSerializer,
                           ApplicationSerializer,
                           TownsSerializer,
@@ -52,13 +55,24 @@ class TownsViewSet(ModelViewSet):
         return istartswith_search(queryset, self)
 
 
-class LanguageViewSet(ModelViewSet):
-    queryset = Language.objects.all()
-    serializer_class = LanguageSerializer
+class ExperienceViewSet(ModelViewSet):
+    queryset = Experience.objects.all()
+    serializer_class = ExperienceSerializer
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return istartswith_search(queryset, self)
+
+class ExperienceViewSet(ModelViewSet):
+    queryset = Experience.objects.all()
+    serializer_class = ExperienceSerializer
+
+
+class EducationViewSet(ModelViewSet):
+    queryset = Education.objects.all()
+    serializer_class = EducationSerializer
+
+
+class PaymentsViewSet(ModelViewSet):
+    queryset = Payments.objects.all()
+    serializer_class = PaymentsSerializer
 
 
 class SkillViewSet(ModelViewSet):
@@ -76,7 +90,39 @@ class SkillViewSet(ModelViewSet):
         return istartswith_search(queryset, self)
 
 
-class SalaryViewSet(ModelViewSet):
+class LanguageViewSet(ModelViewSet):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return istartswith_search(queryset, self)
+
+
+class RegistrationViewSet(ModelViewSet):
+    queryset = Registration.objects.all()
+    serializer_class = RegistrationSerializer
+
+
+class OccupationViewSet(ModelViewSet):
+    queryset = Occupation.objects.all()
+    serializer_class = OccupationSerializer
+
+
+class ScheduleViewSet(ModelViewSet):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+
+
+
+class ScheduleViewSet(ModelViewSet):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+
+
+
+
+class RecommendSalaryViewSet(ModelViewSet):
     queryset = Salaryrecomend.objects.all()
     serializer_class = SalarySerializer
 
@@ -105,6 +151,11 @@ class SalaryViewSet(ModelViewSet):
 class ApplicationViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
+
+    def perform_create(self, serializer):
+        print(self.request.user)
+        print('ааааааааааааааааааааа')
+        serializer.save(employer_id=self.request.user)
 
 
 class AllData(APIView):

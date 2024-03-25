@@ -4,21 +4,21 @@ from rest_framework import serializers
 from app.models import (Application,
 
                         Specialization,
+                        Towns,
                         Experience,
                         Education,
                         Payments,
-                        Towns,
 
                         Skill,
+                        Language,
                         Registration,
                         Occupation,
                         Schedule,
                         Expectations,
 
-                        Language,
                         Salaryrecomend,
-                        LanguageApplication,
-                        LanguageLevel
+                        LanguageLevel,
+                        LanguageApplication
                         )
 
 
@@ -26,6 +26,13 @@ class SpecializationSerializer(ModelSerializer):
 
     class Meta:
         model = Specialization
+        fields = '__all__'
+
+
+class TownsSerializer(ModelSerializer):
+
+    class Meta:
+        model = Towns
         fields = '__all__'
 
 
@@ -47,30 +54,17 @@ class PaymentsSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class PaymentsSerializer(ModelSerializer):
-    class Meta:
-        model = Payments
-        fields = '__all__'
-
-
-class TownsSerializer(ModelSerializer):
+class SkillSerializer(ModelSerializer):
 
     class Meta:
-        model = Towns
-        fields = '__all__'
+        model = Skill
+        fields = ('name',)
 
 
 class LanguageSerializer(ModelSerializer):
     class Meta:
         model = Language
         fields = '__all__'
-
-
-class SkillSerializer(ModelSerializer):
-
-    class Meta:
-        model = Skill
-        fields = ('name',)
 
 
 class RegistrationSerializer(ModelSerializer):
@@ -98,6 +92,13 @@ class ExpectationsSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 
+class SalarySerializer(ModelSerializer):
+
+    class Meta:
+        model = Salaryrecomend
+        fields = ('id', 'salary_recomend')
+
+
 class LanguageApplicationSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all())
     language_level = serializers.CharField()
@@ -108,6 +109,10 @@ class LanguageApplicationSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(ModelSerializer):
+    # employer_id = serializers.SlugRelatedField(slug_field='username',
+    #                                       read_only=True)
+    # employer_id = serializers.PrimaryKeyRelatedField()
+    # bonus = serializers.CharField()
     specialization = serializers.CharField(source='specialization.name')
     experience = serializers.CharField(source='experience.name')
     education = serializers.CharField(source='education.name')
@@ -140,6 +145,16 @@ class ApplicationSerializer(ModelSerializer):
         source="language_list")
 
     def create(self, validated_data):
+        # mission = validated_data.pop(
+        #     'mission', {})
+        # bonus = validated_data.pop(
+        #     'bonus', {})
+
+        # if bonus == 'Да':
+        #     bonus_instance = True
+        # if bonus == 'Нет':
+        #     bonus_instance = False
+
         specialization_name = validated_data.pop(
             'specialization', {}).get('name')
         experience_name = validated_data.pop(
@@ -170,7 +185,11 @@ class ApplicationSerializer(ModelSerializer):
         towns_instance, _ = Towns.objects.get_or_create(
             name=towns_name)
 
+        # print(bonus)
+        # print('aaaaaaaaaaaaaaaaaaa')
+
         application = Application.objects.create(
+            # bonus=bonus_instance,
             specialization=specialization_instance,
             experience=experience_instance,
             education=education_instance,
@@ -254,10 +273,3 @@ class ApplicationSerializer(ModelSerializer):
                   'occupation',
                   'timetable',
                   'expectations')
-
-
-class SalarySerializer(ModelSerializer):
-
-    class Meta:
-        model = Salaryrecomend
-        fields = ('id', 'salary_recomend')
