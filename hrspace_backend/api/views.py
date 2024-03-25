@@ -118,7 +118,7 @@ class AllData(APIView):
         education_list = list(
             Education.objects.values_list('name', flat=True).order_by('name'))
         payments_list = list(
-            Payments.objects.values_list('name', flat=True).order_by('name'))
+            Payments.objects.values_list('name', flat=True).order_by('id'))
         towns_list = list(
             Towns.objects.values_list('name', flat=True).order_by('name'))
         languages_list = list(
