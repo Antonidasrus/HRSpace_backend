@@ -201,10 +201,10 @@ class Application(models.Model):
     responsibilities = models.TextField(
         verbose_name='Обязанности сотрудника'
     )
-    # bonus_description = models.TextField(
-    #     verbose_name='Описание бонусов от работодателя',
-    #     blank=True
-    # )
+    bonus_description = models.TextField(
+        verbose_name='Описание бонусов от работодателя',
+        blank=True
+    )
     other_requirements = models.TextField(
         verbose_name='Дополнительные требования',
         blank=True
@@ -314,10 +314,10 @@ class Application(models.Model):
         #     raise ValidationError(
         #         {'bonus_description': 'Пожалуйста заполните bonus_description'}
         #     )
-        if self.date_employment <= timezone.datetime.now().date() + timezone.timedelta(3): # сделать в отельную валидацию 
-            raise ValidationError(
-                {'date_employment': 'Дата должна быть больше текущей даты на три дня'}
-            )
+        # if self.date_employment <= timezone.datetime.now().date() + timezone.timedelta(3): # сделать в отельную валидацию 
+        #     raise ValidationError(
+        #         {'date_employment': 'Дата должна быть больше текущей даты на три дня'}
+        #     )
 
     def __str__(self):
         return self.specialization.name
