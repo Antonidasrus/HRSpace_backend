@@ -3,7 +3,8 @@ from django.db import models
 from users.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils import timezone
+
+from .validators import date_validator
 
 
 BOOLEAN_CHOICES = ('Нет', 'Да')
@@ -218,6 +219,7 @@ class Application(models.Model):
     )
     date_employment = models.DateField(
         verbose_name='Дата выхода сотрудника',
+        validators=[date_validator]
     )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name='Количество рекрутеров',
@@ -322,15 +324,6 @@ class Application(models.Model):
             raise ValidationError(
                 {'bonus_description': 'Пожалуйста заполните bonus_description'}
             )
-        if (
-            self.date_employment
-            <= timezone.datetime.now().date() + timezone.timedelta(3)
-        ):  # сделать в отельную валидацию
-            raise ValidationError({
-                'date_employment': (
-                    'Дата должна быть больше текущей даты на три дня'
-                )
-            })
 
     def __str__(self):
         return self.specialization.name

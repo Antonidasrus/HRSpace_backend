@@ -84,7 +84,6 @@ WSGI_APPLICATION = 'hrspace_backend.wsgi.application'
 
 # Database
 
-
 if 'DB_ENGINE' in os.environ:
     DATABASES = {
         'default': {
