@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 
 
-BOOLEAN_CHOICES = ('Нет', 'Да')
+BOOLEAN_CHOICES = ('Да', 'Нет')
 CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
