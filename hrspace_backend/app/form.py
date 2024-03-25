@@ -8,5 +8,5 @@ from .models import Application
 class ApplicationForm(ModelForm):
     class Meta:
         model = Application
-        fields = '__all__'
+        fields = "__all__"
         # fields = ('name',)

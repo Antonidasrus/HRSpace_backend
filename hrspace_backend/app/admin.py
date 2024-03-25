@@ -1,31 +1,14 @@
 from django.contrib import admin
 
 # from users.models import User
-from .models import (
-    Specialization,
-    Towns,
-    Experience,
-    Education,
-    Language,
-    LanguageLevel,
-    Registration,
-    Occupation,
-    Skill,
-    Schedule,
-    Expectations,
-    Payments,
-    Application,
-    SkillApplication,
-    LanguageApplication,
-    ScheduleApplication,
-    OccupationApplication,
-    RegistrationApplication,
-    ExpectationsApplication,
-    SkillSpecialization,
-    Salaryrecomend,
-    SalaryrecomendTown
-)
-
+from .models import (Application, Education, Expectations,
+                     ExpectationsApplication, Experience, Language,
+                     LanguageApplication, LanguageLevel, Occupation,
+                     OccupationApplication, Payments, Registration,
+                     RegistrationApplication, Salaryrecomend,
+                     SalaryrecomendTown, Schedule, ScheduleApplication, Skill,
+                     SkillApplication, SkillSpecialization, Specialization,
+                     Towns)
 
 # @admin.register(User)
 # class UserAdmin(admin.ModelAdmin):
@@ -134,9 +117,12 @@ class ExpectationsApplicationInline(admin.TabularInline):
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     inlines = [
-        SkillApplicationInline, LanguageApplicationInline,
-        RegistrationApplicationInline, OccupationApplicationInline,
-        ScheduleApplicationInline, ExpectationsApplicationInline
+        SkillApplicationInline,
+        LanguageApplicationInline,
+        RegistrationApplicationInline,
+        OccupationApplicationInline,
+        ScheduleApplicationInline,
+        ExpectationsApplicationInline,
     ]
 
 

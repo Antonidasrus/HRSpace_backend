@@ -1,7 +1,7 @@
 # заготовка, чтобы вынести часть для рекрутера в отдельное приложение
 
 
-'''
+"""
 from django.db import models
 from app.models import Application
 
@@ -52,4 +52,4 @@ class WaitApplication(models.Model):
         Bonus,
         on_delete=models.CASCADE
     )
-'''
+"""

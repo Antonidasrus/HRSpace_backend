@@ -73,6 +73,7 @@ docker-compose exec backend python manage.py collectstatic --no-input
 | Илья Василевсикй | <a href="https://github.com/IlyaVasilevsky47" target="_blank"> :heavy_check_mark:</a> |
 | Яков Аустер | <a href="https://github.com/find-y" target="_blank"> :heavy_check_mark:</a> |
 | Антон Коновалов | <a href="https://github.com/Antonidasrus" target="_blank"> :heavy_check_mark:</a> |
+| Дмитрий Капустин | <a href="https://github.com/" target="_blank"> :heavy_check_mark:</a> |
 
 ## Технический стек
 - Python 3.10.0
