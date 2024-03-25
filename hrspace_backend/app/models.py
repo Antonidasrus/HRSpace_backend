@@ -7,7 +7,7 @@ from django.utils import timezone
 
 
 BOOLEAN_CHOICES = ('Да', 'Нет')
-CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
+CANDIDATES_COUNT_CHOICES = [number for number in range(1, 11)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
 COUNT_RECRUTER = [1, 2, 3]
@@ -158,6 +158,7 @@ class Payments(TemplateName):
     class Meta:
         verbose_name = 'Вариант выплаты рекрутеру'
         verbose_name_plural = 'Варианты выплат рекрутеру'
+        ordering = ('id',)
 
 
 class Application(models.Model):
