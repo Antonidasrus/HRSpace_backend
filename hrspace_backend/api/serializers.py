@@ -6,6 +6,7 @@ from app.models import (Application, Education, Expectations, Experience,
                         Occupation, Payments, Registration, Salaryrecomend,
                         Schedule, Skill, Specialization, Towns)
 
+from app.validators import date_validator
 
 class SpecializationSerializer(ModelSerializer):
 
@@ -194,6 +195,7 @@ class ApplicationSerializer(ModelSerializer):
                 raise serializers.ValidationError(
                     {'bonus_description': ['Обязательное поле.']}
                 )
+        date_validator(data['date_employment'])
         return data
 
     def to_representation(self, instance):
