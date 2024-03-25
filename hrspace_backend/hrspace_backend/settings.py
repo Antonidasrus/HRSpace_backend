@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'app',
     'app_hr',
     'api',
-    'drf_yasg',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'hrspace_backend.wsgi.application'
 
 
 # Database
+
 
 if 'DB_ENGINE' in os.environ:
     DATABASES = {

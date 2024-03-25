@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet 
 from datetime import datetime
 from rest_framework.views import APIView
 from app.models import (Application,
@@ -32,9 +32,21 @@ from rest_framework.response import Response
 from django.db.models import Avg
 # from rest_framework.response import Response
 # from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
+from django.utils.decorators import method_decorator
 
 
-class SpecializationViewSet(ModelViewSet):
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(
+    operation_id='Specializations-get',
+    operation_description="Получаем специализацию",
+    tags=['Specialization']
+))
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_id='Specializations-get-list',
+    operation_description="Получаем список специализаций",
+    tags=['Specialization'],
+))
+class SpecializationViewSet(ReadOnlyModelViewSet):
     queryset = Specialization.objects.all()
     serializer_class = SpecializationSerializer
 
@@ -43,7 +55,17 @@ class SpecializationViewSet(ModelViewSet):
         return istartswith_search(queryset, self)
 
 
-class TownsViewSet(ModelViewSet):
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(
+    operation_id='Towns-get',
+    operation_description="Получаем город",
+    tags=['Towns']
+))
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_id='Towns-get-list',
+    operation_description="Получаем список городов",
+    tags=['Towns'],
+))
+class TownsViewSet(ReadOnlyModelViewSet):
     queryset = Towns.objects.all()
     serializer_class = TownsSerializer
 
@@ -52,7 +74,17 @@ class TownsViewSet(ModelViewSet):
         return istartswith_search(queryset, self)
 
 
-class LanguageViewSet(ModelViewSet):
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(
+    operation_id='Language-get',
+    operation_description="Получаем знание языков",
+    tags=['Language']
+))
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_id='Language-get-list',
+    operation_description="Получаем список знаний языков",
+    tags=['Language'],
+))
+class LanguageViewSet(ReadOnlyModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
 
@@ -61,7 +93,17 @@ class LanguageViewSet(ModelViewSet):
         return istartswith_search(queryset, self)
 
 
-class SkillViewSet(ModelViewSet):
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(
+    operation_id='Skill-get',
+    operation_description="Получаем навык",
+    tags=['Skill']
+))
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_id='Skill-get-list',
+    operation_description="Получаем список навыков",
+    tags=['Skill'],
+))
+class SkillViewSet(ReadOnlyModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
 
@@ -76,7 +118,17 @@ class SkillViewSet(ModelViewSet):
         return istartswith_search(queryset, self)
 
 
-class SalaryViewSet(ModelViewSet):
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(
+    operation_id='Salary-get',
+    operation_description="Получаем рекомендуемую зарплату",
+    tags=['Salary']
+))
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_id='Salary-get-list',
+    operation_description="Получаем список рекомендуемой зарплаты",
+    tags=['Salary'],
+))
+class SalaryViewSet(ReadOnlyModelViewSet):
     queryset = Salaryrecomend.objects.all()
     serializer_class = SalarySerializer
 
@@ -102,12 +154,47 @@ class SalaryViewSet(ModelViewSet):
 # берет данные по нему, и уже не использует istartswith
 
 
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(
+    operation_id='Application-get',
+    operation_description="Получаем заявку",
+    tags=['Application']
+))
+@method_decorator(name='list', decorator=swagger_auto_schema(
+    operation_id='Application-get-list',
+    operation_description="Получаем список заявок",
+    tags=['Application'],
+))
+@method_decorator(name='create', decorator=swagger_auto_schema(
+    operation_id='Application-post',
+    operation_description="Создаем заявку",
+    tags=['Application']
+))
+@method_decorator(name='update', decorator=swagger_auto_schema(
+    operation_id='Application-put',
+    operation_description="Обновляем всю заявку",
+    tags=['Application'],
+))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(
+    operation_id='Application-patch',
+    operation_description="Обновляем заявку",
+    tags=['Application'],
+))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(
+    operation_id='Application-delete',
+    operation_description="Удаляем заявку",
+    tags=['Application'],
+))
 class ApplicationViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
 
 class AllData(APIView):
+    @swagger_auto_schema(
+        operation_id='All-get-list',
+        operation_description="Получаем список",
+        tags=['All'],
+    )
     def get(self, request):
         skills_list = list(
             Skill.objects.values_list('name', flat=True))

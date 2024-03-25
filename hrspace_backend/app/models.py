@@ -320,7 +320,7 @@ class Application(models.Model):
                         'не может быть больше максимальной'
                     )
                 })
-        if self.bonus:
+        if self.bonus and self.bonus_description in '':
             raise ValidationError(
                 {'bonus_description': 'Пожалуйста заполните bonus_description'}
             )
