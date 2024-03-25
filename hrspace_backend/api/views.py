@@ -110,30 +110,41 @@ class ApplicationViewSet(ModelViewSet):
 class AllData(APIView):
     def get(self, request):
         skills_list = list(
-            Skill.objects.values_list('name', flat=True).order_by('name'))
+            Skill.objects.values_list(
+                'name', flat=True).order_by('name'))
         specialization_list = list(
-            Specialization.objects.values_list('name', flat=True).order_by('name'))
+            Specialization.objects.values_list(
+                'name', flat=True).order_by('name'))
         experience_list = list(
-            Experience.objects.values_list('name', flat=True).order_by('name'))
+            Experience.objects.values_list(
+                'name', flat=True).order_by('name'))
         education_list = list(
-            Education.objects.values_list('name', flat=True).order_by('name'))
+            Education.objects.values_list(
+                'name', flat=True).order_by('name'))
         payments_list = list(
-            Payments.objects.values_list('name', flat=True).order_by('id'))
+            Payments.objects.values_list(
+                'name', flat=True).order_by('id'))
         towns_list = list(
-            Towns.objects.values_list('name', flat=True).order_by('name'))
+            Towns.objects.values_list(
+                'name', flat=True).order_by('name'))
         languages_list = list(
-            Language.objects.values_list('name', flat=True).order_by('name'))
+            Language.objects.values_list(
+                'name', flat=True).order_by('name'))
         languages_levels_list = list(
             LanguageLevel.objects.values_list(
                 'name', flat=True).order_by('name'))
         registration_list = list(
-            Registration.objects.values_list('name', flat=True).order_by('name'))
+            Registration.objects.values_list(
+                'name', flat=True).order_by('name'))
         occupation_list = list(
-            Occupation.objects.values_list('name', flat=True).order_by('name'))
+            Occupation.objects.values_list(
+                'name', flat=True).order_by('name'))
         timetable_list = list(
-            Schedule.objects.values_list('name', flat=True).order_by('name'))
+            Schedule.objects.values_list(
+                'name', flat=True).order_by('name'))
         expectations_list = list(
-            Expectations.objects.values_list('name', flat=True).order_by('name'))
+            Expectations.objects.values_list(
+                'name', flat=True).order_by('name'))
         date = datetime.now().strftime("%Y-%m-%d")
 
         return Response({
