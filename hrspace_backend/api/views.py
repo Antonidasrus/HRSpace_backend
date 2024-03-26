@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from app.models import (BOOLEAN_CHOICES, CANDIDATES_COUNT_CHOICES,
-                        PAYMENTS_CHOICES, RECRUITER_COUNT_CHOICES, Application,
+                        RECRUITER_COUNT_CHOICES, Application,
                         Education, Expectations, Experience, Language,
                         LanguageLevel, Occupation, Payments, Registration,
                         Salaryrecomend, Schedule, Skill, Specialization, Towns)
@@ -229,30 +229,53 @@ class AllData(APIView):
         tags=["All"],
     )
     def get(self, request):
-        skills_list = list(Skill.objects.values_list("name", flat=True))
+        skills_list = list(
+            Skill.objects.values_list(
+                "name", flat=True).order_by('name')
+        )
         specialization_list = list(
-            Specialization.objects.values_list("name", flat=True)
+            Specialization.objects.values_list(
+                "name", flat=True).order_by('name')
         )
         experience_list = list(
-            Experience.objects.values_list("name", flat=True)
+            Experience.objects.values_list(
+                "name", flat=True).order_by('name')
         )
-        education_list = list(Education.objects.values_list("name", flat=True))
-        towns_list = list(Towns.objects.values_list("name", flat=True))
-        languages_list = list(Language.objects.values_list("name", flat=True))
+        education_list = list(
+            Education.objects.values_list(
+                "name", flat=True).order_by('name')
+        )
+        towns_list = list(
+            Towns.objects.values_list(
+                "name", flat=True).order_by('name')
+        )
+        languages_list = list(
+            Language.objects.values_list(
+                "name", flat=True).order_by('name')
+        )
         languages_levels_list = list(
-            LanguageLevel.objects.values_list("name", flat=True)
+            LanguageLevel.objects.values_list(
+                "name", flat=True).order_by('name')
         )
         registration_list = list(
-            Registration.objects.values_list("name", flat=True)
+            Registration.objects.values_list(
+                "name", flat=True).order_by('name')
         )
         occupation_list = list(
-            Occupation.objects.values_list("name", flat=True)
+            Occupation.objects.values_list(
+                "name", flat=True).order_by('name')
         )
         timetable_list = list(
-            Schedule.objects.values_list("name", flat=True)
+            Schedule.objects.values_list(
+                "name", flat=True).order_by('name')
         )
         expectations_list = list(
-            Expectations.objects.values_list("name", flat=True)
+            Expectations.objects.values_list(
+                "name", flat=True).order_by('name')
+        )
+        payments_list = list(
+            Payments.objects.values_list(
+                "name", flat=True).order_by('id')
         )
         date = datetime.now().strftime("%Y-%m-%d")
 
@@ -274,6 +297,6 @@ class AllData(APIView):
                 "date": date,
                 "recruiter_count": RECRUITER_COUNT_CHOICES,
                 "candidates_count": CANDIDATES_COUNT_CHOICES,
-                "payments": PAYMENTS_CHOICES,
+                "payments": payments_list
             }
         )
