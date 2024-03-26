@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/find-y/HRSpace_backend/actions/workflows/hrspace_workflow.yml/badge.svg?branch=feature/deploy)](https://github.com/find-y/HRSpace_backend/actions/workflows/hrspace_workflow.yml)
 
-HRSpace - это API, разработанное специально для маркетплейса HRSpace с главной целью обновить и расширить возможности микросервис билдера заявки рекрутера. Наше API предлагает широкий спектр функций и инструментов, которые позволяют оптимизировать процесс создания заявок, делая его более гибким, эффективным и удобным
+HRSpace - это API, разработанное специально для маркетплейса HRSpace с главной целью обновить и расширить возможности микросервис билдера заявки рекрутера.
 
-### [Сайт](https://51.250.27.201/)
+### [API](http://51.250.27.201/api/v1)
 
 ## Запуск проекта:
 1. Клонируем проект.
@@ -64,8 +64,8 @@ docker-compose exec backend python manage.py collectstatic --no-input
 ```
 
 ## Документация:
-- ### [Swagger](https://51.250.27.201/api/docs/Swagger)
-- ### [Redoc](https://51.250.27.201/api/docs/Redoc)
+- ### [Swagger](http://51.250.27.201/api/docs/swagger/)
+- ### [Redoc](http://51.250.27.201/api/docs/redoc/)
 
 ## Авторы:
 | Имя | GitHub |
@@ -73,7 +73,6 @@ docker-compose exec backend python manage.py collectstatic --no-input
 | Илья Василевсикй | <a href="https://github.com/IlyaVasilevsky47" target="_blank"> :heavy_check_mark:</a> |
 | Яков Аустер | <a href="https://github.com/find-y" target="_blank"> :heavy_check_mark:</a> |
 | Антон Коновалов | <a href="https://github.com/Antonidasrus" target="_blank"> :heavy_check_mark:</a> |
-| Дмитрий Капустин | <a href="https://github.com/" target="_blank"> :heavy_check_mark:</a> |
 
 ## Технический стек
 - Python 3.10.0

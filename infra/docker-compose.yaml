@@ -8,8 +8,7 @@ services:
     env_file:
       - ./.env
   backend:
-    # build: ../hrspace_backend/
-    image: "${DOCKER_USERNAME}/hrspace_backend:latest"
+    build: ../hrspace_backend/
     restart: always
     volumes:
       - static_value:/app/static/
@@ -22,7 +21,6 @@ services:
     image: nginx:1.21.3-alpine
     ports:
       - "80:80"
-      # - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_value:/var/html/static/

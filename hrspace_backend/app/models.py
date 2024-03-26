@@ -24,19 +24,6 @@ class TemplateName(models.Model):
         ordering = ("-name",)
 
 
-"""
-class Appstatus(models.Model):
-    name = models.CharField('Название', max_length=256, unique=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Статус заявки'
-        verbose_name_plural = 'Статусы заявок'
-"""
-
-
 class Skill(TemplateName):
     class Meta:
         verbose_name = "Навык"
@@ -67,8 +54,7 @@ class Specialization(models.Model):
         through="SkillSpecialization",
         verbose_name="Навыки специальности",
     )
-    # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
-    salary_recomend = models.ManyToManyField(  # чекчек
+    salary_recomend = models.ManyToManyField(
         Salaryrecomend,
         through="SalaryrecomendTown",
         verbose_name="Зарплаты по специальностям в городах",
@@ -84,15 +70,14 @@ class Specialization(models.Model):
 
 class SalaryrecomendTown(models.Model):
     town_id = models.ForeignKey(
-        Towns, on_delete=models.CASCADE, verbose_name="Город"  #
+        Towns, on_delete=models.CASCADE, verbose_name="Город"
     )
     specialization_id = models.ForeignKey(
         Specialization, on_delete=models.CASCADE, verbose_name="Специльность"
     )
-    # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
     salary_recomend = models.ForeignKey(
         Salaryrecomend,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Рекомендуемые зарплаты по специальности",
     )
 
@@ -157,8 +142,6 @@ class Payments(TemplateName):
 
 
 class Application(models.Model):
-    # поля модели скомпанованы по типу:
-    # данные проставляются автоматически
     employer_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -168,22 +151,16 @@ class Application(models.Model):
         auto_now_add=True,
         verbose_name="Дата публикации",
     )
-
-    # юзер ставит галочку или нет
     mission = models.BooleanField(
         verbose_name="Командировки",
-        # choices=MissionChoices.choices,
-        null=True,
-        blank=True,
-    )  # или поменять на выбор из нескольких?
-    bonus = models.BooleanField(
-        verbose_name="Бонусы от работодателя",
-        # choices=BonusChoices.choices,
         null=True,
         blank=True,
     )
-
-    # юзер вводит значения вручную
+    bonus = models.BooleanField(
+        verbose_name="Бонусы от работодателя",
+        null=True,
+        blank=True,
+    )
     salary_min = models.PositiveBigIntegerField(
         verbose_name="Минимальная зарплата", null=True, blank=True
     )
@@ -193,7 +170,7 @@ class Application(models.Model):
     responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
     bonus_description = models.TextField(
         verbose_name="Описание бонусов от работодателя", blank=True
-    )  # может ли ошибка из-за того, что есть уже bonus
+    )
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
@@ -220,8 +197,6 @@ class Application(models.Model):
     award = models.PositiveIntegerField(
         verbose_name="Вознаграждение рекрутера"
     )
-
-    # юзер выбирает одно из списка. или добавляет свое
     name = models.CharField(
         default="Новая заявка",
         max_length=256,
@@ -229,36 +204,29 @@ class Application(models.Model):
     )
     specialization = models.ForeignKey(
         Specialization,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Специальность",
     )
     towns = models.ForeignKey(
         Towns,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Города",
     )
     experience = models.ForeignKey(
         Experience,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Опыт работы",
     )
     education = models.ForeignKey(
         Education,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Образование",
     )
     payments = models.ForeignKey(
         Payments,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Варианты выплат рекрутеру",
     )
-    # appstatus = models.ForeignKey(
-    #     Appstatus,
-    #     on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
-    #     verbose_name='Статус заявки',
-    # )
-
-    # юзер выбирает несколько из списка
     skills = models.ManyToManyField(
         Skill,
         through="SkillApplication",
@@ -270,7 +238,7 @@ class Application(models.Model):
         verbose_name="Знание языков",
         blank=True,
     )
-    registration = models.ManyToManyField(  # чекчек
+    registration = models.ManyToManyField(
         Registration,
         through="RegistrationApplication",
         verbose_name="Варианты оформления",
@@ -354,7 +322,7 @@ class LanguageApplication(models.Model):
     )
     language_level = models.ForeignKey(
         LanguageLevel,
-        on_delete=models.PROTECT,  # добавить: при вводе букв - подсказки
+        on_delete=models.PROTECT,
         verbose_name="Уровень языка",
     )
 
@@ -425,7 +393,7 @@ class SkillSpecialization(models.Model):
         Specialization, on_delete=models.CASCADE, verbose_name="Специальность"
     )
     skill_id = models.ForeignKey(
-        Skill, on_delete=models.PROTECT, verbose_name="Навык"  #
+        Skill, on_delete=models.PROTECT, verbose_name="Навык"
     )
 
     class Meta:

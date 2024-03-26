@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-# from users.models import User
 from .models import (Application, Education, Expectations,
                      ExpectationsApplication, Experience, Language,
                      LanguageApplication, LanguageLevel, Occupation,
@@ -9,10 +8,6 @@ from .models import (Application, Education, Expectations,
                      SalaryrecomendTown, Schedule, ScheduleApplication, Skill,
                      SkillApplication, SkillSpecialization, Specialization,
                      Towns)
-
-# @admin.register(User)
-# class UserAdmin(admin.ModelAdmin):
-#     pass
 
 
 @admin.register(Specialization)
@@ -124,33 +119,3 @@ class ApplicationAdmin(admin.ModelAdmin):
         ScheduleApplicationInline,
         ExpectationsApplicationInline,
     ]
-
-
-# @admin.register(SkillApplication)
-# class SkillApplicationAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(LanguageApplication)
-# class LanguageApplicationAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(ScheduleApplication)
-# class ScheduleApplicationAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(OccupationApplication)
-# class OccupationApplicationAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(RegistrationApplication)
-# class RegistrationApplicationAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(ExpectationsApplication)
-# class ExpectationsApplicationAdmin(admin.ModelAdmin):
-#     pass

@@ -2,8 +2,6 @@ from datetime import datetime
 
 from django.db.models import Avg
 from django.utils.decorators import method_decorator
-# from rest_framework.response import Response
-# from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -121,7 +119,6 @@ class SkillViewSet(ReadOnlyModelViewSet):
         specialization_name = self.request.query_params.get(
             "specialization_name"
         )
-        # specialization_name = 'кодер'
         if specialization_name:
             queryset = queryset.filter(
                 specialization__name=specialization_name
@@ -154,14 +151,12 @@ class SalaryViewSet(ReadOnlyModelViewSet):
         specialization_name = self.request.query_params.get(
             "specialization_name"
         )
-        # specialization_name = 'кодер'
         if specialization_name:
             queryset = queryset.filter(
                 specialization__name=specialization_name
             )
         name = self.request.query_params.get("name")
-        # name = 'Палк' # начало названия города
-        if name:  # поменять на town
+        if name:
             queryset = queryset.filter(
                 salaryrecomendtown__town_id__name__istartswith=name
             )
@@ -172,10 +167,6 @@ class SalaryViewSet(ReadOnlyModelViewSet):
             salary_recomend=average_salary
         )
         return [created_salary_recomend]
-
-
-# проверить, что попсле выбора города,
-# берет данные по нему, и уже не использует istartswith
 
 
 @method_decorator(
@@ -270,7 +261,6 @@ class AllData(APIView):
             {
                 "specialization": specialization_list,
                 "towns": towns_list,
-                # salary
                 "experience": experience_list,
                 "education": education_list,
                 "skills": skills_list,
@@ -286,6 +276,5 @@ class AllData(APIView):
                 "recruiter_count": RECRUITER_COUNT_CHOICES,
                 "candidates_count": CANDIDATES_COUNT_CHOICES,
                 "payments": payments_list,
-                # award
             }
         )
