@@ -173,9 +173,9 @@ class Application(models.Model):
         verbose_name="Максимальня зараплта", null=True, blank=True
     )
     responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
-    bonus_description = models.TextField(
-        verbose_name="Описание бонусов от работодателя", blank=True
-    )
+    # bonus_description = models.TextField(
+    #     verbose_name="Описание бонусов от работодателя", blank=True
+    # )
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
@@ -186,12 +186,12 @@ class Application(models.Model):
             MaxValueValidator(CANDIDATES_COUNT_CHOICES[-1]),
         ],
     )
-    date_employment = models.DateField(
-        verbose_name='Дата выхода сотрудника',
-        validators=[
-            date_validator
-        ]
-    )
+    # date_employment = models.DateField(
+    #     verbose_name='Дата выхода сотрудника',
+    #     validators=[
+    #         date_validator
+    #     ]
+    # )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name="Количество рекрутеров",
         validators=[
@@ -282,10 +282,10 @@ class Application(models.Model):
                         "не может быть больше максимальной"
                     )
                 })
-        if self.bonus and self.bonus_description in "":
-            raise ValidationError(
-                {'bonus_description': 'Пожалуйста заполните bonus_description'}
-            )
+        # if self.bonus and self.bonus_description in "":
+        #     raise ValidationError(
+        #         {'bonus_description': 'Пожалуйста заполните bonus_description'}
+        #     )
 
     def __str__(self):
         return self.specialization.name

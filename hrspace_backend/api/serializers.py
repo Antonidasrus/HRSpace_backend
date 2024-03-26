@@ -100,7 +100,7 @@ class ApplicationSerializer(ModelSerializer):
     payments = serializers.CharField(source="payments.name")
     towns = serializers.CharField(source="towns.name")
 
-    date_employment = serializers.DateField(format="%d-%m-%Y")
+    # date_employment = serializers.DateField(format="%d-%m-%Y")
 
     skills = serializers.SlugRelatedField(
         queryset=Skill.objects.all(), slug_field="name", many=True
@@ -220,20 +220,20 @@ class ApplicationSerializer(ModelSerializer):
                         "может быть больше максимальной"
                     ]
                 })
-            if data["bonus"]:
-                try:
-                    if data["bonus_description"] in "":
-                        raise serializers.ValidationError(
-                            {"bonus_description": ["Неможет быть пустым."]}
-                        )
-                except KeyError:
-                    raise serializers.ValidationError(
-                        {"bonus_description": ["Обязательное поле."]}
-                    )
+            # if data["bonus"]:
+            #     try:
+            #         if data["bonus_description"] in "":
+            #             raise serializers.ValidationError(
+            #                 {"bonus_description": ["Неможет быть пустым."]}
+            #             )
+            #     except KeyError:
+            #         raise serializers.ValidationError(
+            #             {"bonus_description": ["Обязательное поле."]}
+            #         )
         except KeyError:
             pass
-        date_validator(data["date_employment"])
-        return data
+        # date_validator(data["date_employment"])
+        # return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -264,14 +264,14 @@ class ApplicationSerializer(ModelSerializer):
             "date",
             "mission",
             "bonus",
-            "bonus_description",
+            # "bonus_description",
             "salary_min",
             "salary_max",
             "responsibilities",
             "other_requirements",
             "candidates_count",
             "recruiter_count",
-            "date_employment",
+            # "date_employment",
             "award",
             "name",
             "specialization",
