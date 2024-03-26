@@ -158,17 +158,17 @@ class ApplicationSerializer(ModelSerializer):
         )
         towns_instance, _ = Towns.objects.get_or_create(name=towns_name)
 
-        salary_min = validated_data.pop("salary_min", 0)
-        salary_max = validated_data.pop("salary_max", 0)
-        if salary_min == 0 and salary_max == 0:
-            raise serializers.ValidationError({
-                "salary_max": [
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ],
-                "salary_min": [
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ],
-            })
+        # salary_min = validated_data.pop("salary_min", 0)
+        # salary_max = validated_data.pop("salary_max", 0)
+        # if salary_min == 0 and salary_max == 0:
+        #     raise serializers.ValidationError({
+        #         "salary_max": [
+        #             "Пожалуйста, заполните salary_min или salary_max"
+        #         ],
+        #         "salary_min": [
+        #             "Пожалуйста, заполните salary_min или salary_max"
+        #         ],
+        #     })
 
         application = Application.objects.create(
             specialization=specialization_instance,
@@ -216,18 +216,18 @@ class ApplicationSerializer(ModelSerializer):
             pass
         return application
 
-    def validate(self, data):
-        try:
-            if data["salary_min"] > data["salary_max"]:
-                raise serializers.ValidationError({
-                    "salary_min": [
-                        "Минимальная зарплата не "
-                        "может быть больше максимальной"
-                    ]
-                })
-        except KeyError:
-            pass
-        return data
+    # def validate(self, data):
+    #     try:
+    #         if data["salary_min"] > data["salary_max"]:
+    #             raise serializers.ValidationError({
+    #                 "salary_min": [
+    #                     "Минимальная зарплата не "
+    #                     "может быть больше максимальной"
+    #                 ]
+    #             })
+    #     except KeyError:
+    #         pass
+    #     return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

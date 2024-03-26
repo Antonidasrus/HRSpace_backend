@@ -246,24 +246,24 @@ class Application(models.Model):
         verbose_name="Задачи рекрутера",
     )
 
-    def clean(self):
-        if not self.salary_min and not self.salary_max:
-            raise ValidationError({
-                "salary_max": (
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ),
-                "salary_min": (
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ),
-            })
-        if self.salary_min and self.salary_max:
-            if self.salary_min > self.salary_max:
-                raise ValidationError({
-                    "salary_min": (
-                        "Минимальная зарплата"
-                        "не может быть больше максимальной"
-                    )
-                })
+    # def clean(self):
+    #     if not self.salary_min and not self.salary_max:
+    #         raise ValidationError({
+    #             "salary_max": (
+    #                 "Пожалуйста, заполните salary_min или salary_max"
+    #             ),
+    #             "salary_min": (
+    #                 "Пожалуйста, заполните salary_min или salary_max"
+    #             ),
+    #         })
+    #     if self.salary_min and self.salary_max:
+    #         if self.salary_min > self.salary_max:
+    #             raise ValidationError({
+    #                 "salary_min": (
+    #                     "Минимальная зарплата"
+    #                     "не может быть больше максимальной"
+    #                 )
+    #             })
 
     def __str__(self):
         return self.specialization.name
