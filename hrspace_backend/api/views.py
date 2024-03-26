@@ -248,7 +248,8 @@ class AllData(APIView):
             Language.objects.values_list("name", flat=True).order_by('name')
         )
         languages_levels_list = list(
-            LanguageLevel.objects.values_list("name", flat=True)
+            LanguageLevel.objects.values_list(
+                "name", flat=True).order_by('name')
         )
         registration_list = list(
             Registration.objects.values_list("name", flat=True)
