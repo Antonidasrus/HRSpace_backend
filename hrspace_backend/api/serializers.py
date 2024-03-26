@@ -241,7 +241,7 @@ class ApplicationSerializer(ModelSerializer):
         except KeyError:
             pass
         # date_validator(data["date_employment"])
-        # return data
+        return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
