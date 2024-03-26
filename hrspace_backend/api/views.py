@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from app.models import (BOOLEAN_CHOICES, CANDIDATES_COUNT_CHOICES,
-                        PAYMENTS_CHOICES, RECRUITER_COUNT_CHOICES, Application,
+                        RECRUITER_COUNT_CHOICES, Application,
                         Education, Expectations, Experience, Language,
                         LanguageLevel, Occupation, Payments, Registration,
                         Salaryrecomend, Schedule, Skill, Specialization, Towns)
@@ -297,7 +297,6 @@ class AllData(APIView):
                 "date": date,
                 "recruiter_count": RECRUITER_COUNT_CHOICES,
                 "candidates_count": CANDIDATES_COUNT_CHOICES,
-                # "payments": PAYMENTS_CHOICES,
                 "payments": payments_list
             }
         )
