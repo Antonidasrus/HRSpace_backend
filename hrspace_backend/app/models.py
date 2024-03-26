@@ -191,9 +191,9 @@ class Application(models.Model):
         verbose_name="Максимальня зараплта", null=True, blank=True
     )
     responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
-    bonus_description = models.TextField(
+    bonus_description = models.TextField( 
         verbose_name="Описание бонусов от работодателя", blank=True
-    )
+    ) # может быть ошибка из-за совпадения с полем bonus?
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
