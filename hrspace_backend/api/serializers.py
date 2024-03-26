@@ -5,7 +5,6 @@ from app.models import (Application, Education, Expectations, Experience,
                         Language, LanguageApplication, LanguageLevel,
                         Occupation, Payments, Registration, Salaryrecomend,
                         Schedule, Skill, Specialization, Towns)
-from app.validators import date_validator
 
 
 class SpecializationSerializer(ModelSerializer):
@@ -15,6 +14,7 @@ class SpecializationSerializer(ModelSerializer):
         fields = "__all__"
 
 
+'''
 class ExperienceSerializer(ModelSerializer):
     class Meta:
         model = Experience
@@ -38,6 +38,25 @@ class PaymentsSerializer(ModelSerializer):
         model = Payments
         fields = "__all__"
 
+class RegistrationSerializer(ModelSerializer):
+
+    class Meta:
+        model = Registration
+        fields = ("name",)
+
+
+class OccupationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Occupation
+        fields = ("name",)
+
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = ("name",)
+'''
+
 
 class TownsSerializer(ModelSerializer):
 
@@ -59,23 +78,11 @@ class SkillSerializer(ModelSerializer):
         fields = ("name",)
 
 
-class RegistrationSerializer(ModelSerializer):
+class SalarySerializer(ModelSerializer):
 
     class Meta:
-        model = Registration
-        fields = ("name",)
-
-
-class OccupationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Occupation
-        fields = ("name",)
-
-
-class ScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Schedule
-        fields = ("name",)
+        model = Salaryrecomend
+        fields = ("id", "salary_recomend")
 
 
 class ExpectationsSerializer(serializers.ModelSerializer):
@@ -99,8 +106,6 @@ class ApplicationSerializer(ModelSerializer):
     education = serializers.CharField(source="education.name")
     payments = serializers.CharField(source="payments.name")
     towns = serializers.CharField(source="towns.name")
-
-    # date_employment = serializers.DateField(format="%d-%m-%Y")
 
     skills = serializers.SlugRelatedField(
         queryset=Skill.objects.all(), slug_field="name", many=True
@@ -153,17 +158,17 @@ class ApplicationSerializer(ModelSerializer):
         )
         towns_instance, _ = Towns.objects.get_or_create(name=towns_name)
 
-        salary_min = validated_data.pop("salary_min", 0)
-        salary_max = validated_data.pop("salary_max", 0)
-        if salary_min == 0 and salary_max == 0:
-            raise serializers.ValidationError({
-                "salary_max": [
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ],
-                "salary_min": [
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ],
-            })
+        # salary_min = validated_data.pop("salary_min", 0)
+        # salary_max = validated_data.pop("salary_max", 0)
+        # if salary_min == 0 and salary_max == 0:
+        #     raise serializers.ValidationError({
+        #         "salary_max": [
+        #             "Пожалуйста, заполните salary_min или salary_max"
+        #         ],
+        #         "salary_min": [
+        #             "Пожалуйста, заполните salary_min или salary_max"
+        #         ],
+        #     })
 
         application = Application.objects.create(
             specialization=specialization_instance,
@@ -211,29 +216,18 @@ class ApplicationSerializer(ModelSerializer):
             pass
         return application
 
-    def validate(self, data):
-        try:
-            if data["salary_min"] > data["salary_max"]:
-                raise serializers.ValidationError({
-                    "salary_min": [
-                        "Минимальная зарплата не "
-                        "может быть больше максимальной"
-                    ]
-                })
-            # if data["bonus"]:
-            #     try:
-            #         if data["bonus_description"] in "":
-            #             raise serializers.ValidationError(
-            #                 {"bonus_description": ["Неможет быть пустым."]}
-            #             )
-            #     except KeyError:
-            #         raise serializers.ValidationError(
-            #             {"bonus_description": ["Обязательное поле."]}
-            #         )
-        except KeyError:
-            pass
-        # date_validator(data["date_employment"])
-        # return data
+    # def validate(self, data):
+    #     try:
+    #         if data["salary_min"] > data["salary_max"]:
+    #             raise serializers.ValidationError({
+    #                 "salary_min": [
+    #                     "Минимальная зарплата не "
+    #                     "может быть больше максимальной"
+    #                 ]
+    #             })
+    #     except KeyError:
+    #         pass
+    #     return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -261,17 +255,15 @@ class ApplicationSerializer(ModelSerializer):
         fields = (
             "id",
             "employer_id",
-            "date",
+            # "date",
             "mission",
             "bonus",
-            # "bonus_description",
             "salary_min",
             "salary_max",
             "responsibilities",
             "other_requirements",
             "candidates_count",
             "recruiter_count",
-            # "date_employment",
             "award",
             "name",
             "specialization",
@@ -286,10 +278,3 @@ class ApplicationSerializer(ModelSerializer):
             "timetable",
             "expectations",
         )
-
-
-class SalarySerializer(ModelSerializer):
-
-    class Meta:
-        model = Salaryrecomend
-        fields = ("id", "salary_recomend")

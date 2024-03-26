@@ -1,10 +1,8 @@
-from django.core.exceptions import ValidationError
+# from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from users.models import User
-
-# from .validators import date_validator
 
 BOOLEAN_CHOICES = ("Да", "Нет")
 CANDIDATES_COUNT_CHOICES = [number for number in range(1, 11)]
@@ -166,9 +164,6 @@ class Application(models.Model):
         verbose_name="Максимальня зараплта", null=True, blank=True
     )
     responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
-    # bonus_description = models.TextField(
-    #     verbose_name="Описание бонусов от работодателя", blank=True
-    # )
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
@@ -179,12 +174,6 @@ class Application(models.Model):
             MaxValueValidator(CANDIDATES_COUNT_CHOICES[-1]),
         ],
     )
-    # date_employment = models.DateField(
-    #     verbose_name='Дата выхода сотрудника',
-    #     validators=[
-    #         date_validator
-    #     ]
-    # )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name="Количество рекрутеров",
         validators=[
@@ -257,28 +246,24 @@ class Application(models.Model):
         verbose_name="Задачи рекрутера",
     )
 
-    def clean(self):
-        if not self.salary_min and not self.salary_max:
-            raise ValidationError({
-                "salary_max": (
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ),
-                "salary_min": (
-                    "Пожалуйста, заполните salary_min или salary_max"
-                ),
-            })
-        if self.salary_min and self.salary_max:
-            if self.salary_min > self.salary_max:
-                raise ValidationError({
-                    "salary_min": (
-                        "Минимальная зарплата"
-                        "не может быть больше максимальной"
-                    )
-                })
-        # if self.bonus and self.bonus_description in "":
-        #     raise ValidationError(
-        #         {'bonus_description': 'Пожалуйста заполните bonus_description'}
-        #     )
+    # def clean(self):
+    #     if not self.salary_min and not self.salary_max:
+    #         raise ValidationError({
+    #             "salary_max": (
+    #                 "Пожалуйста, заполните salary_min или salary_max"
+    #             ),
+    #             "salary_min": (
+    #                 "Пожалуйста, заполните salary_min или salary_max"
+    #             ),
+    #         })
+    #     if self.salary_min and self.salary_max:
+    #         if self.salary_min > self.salary_max:
+    #             raise ValidationError({
+    #                 "salary_min": (
+    #                     "Минимальная зарплата"
+    #                     "не может быть больше максимальной"
+    #                 )
+    #             })
 
     def __str__(self):
         return self.specialization.name
