@@ -4,7 +4,7 @@ from django.db import models
 
 from users.models import User
 
-from .validators import date_validator
+# from .validators import date_validator
 
 BOOLEAN_CHOICES = ("Да", "Нет")
 PAYMENTS_CHOICES = [

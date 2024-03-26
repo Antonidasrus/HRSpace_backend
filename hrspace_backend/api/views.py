@@ -229,16 +229,24 @@ class AllData(APIView):
         tags=["All"],
     )
     def get(self, request):
-        skills_list = list(Skill.objects.values_list("name", flat=True))
+        skills_list = list(
+            Skill.objects.values_list("name", flat=True)
+        )
         specialization_list = list(
             Specialization.objects.values_list("name", flat=True)
         )
         experience_list = list(
             Experience.objects.values_list("name", flat=True)
         )
-        education_list = list(Education.objects.values_list("name", flat=True))
-        towns_list = list(Towns.objects.values_list("name", flat=True))
-        languages_list = list(Language.objects.values_list("name", flat=True))
+        education_list = list(
+            Education.objects.values_list("name", flat=True)
+        )
+        towns_list = list(
+            Towns.objects.values_list("name", flat=True)
+        )
+        languages_list = list(
+            Language.objects.values_list("name", flat=True).order_by('name')
+        )
         languages_levels_list = list(
             LanguageLevel.objects.values_list("name", flat=True)
         )
