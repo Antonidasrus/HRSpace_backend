@@ -87,7 +87,7 @@ class SalaryrecomendTown(models.Model):
         Towns, on_delete=models.CASCADE, verbose_name="Город"  #
     )
     specialization_id = models.ForeignKey(
-        Specialization, on_delete=models.CASCADE, verbose_name="Специльность"  #
+        Specialization, on_delete=models.CASCADE, verbose_name="Специльность"
     )
     # salary_recomend = models.PositiveIntegerField('Рекомендуемая зарплата')
     salary_recomend = models.ForeignKey(
@@ -214,11 +214,15 @@ class Application(models.Model):
             MaxValueValidator(RECRUITER_COUNT_CHOICES[-1]),
         ],
     )
-    award = models.PositiveIntegerField(verbose_name="Вознаграждение рекрутера")
+    award = models.PositiveIntegerField(
+        verbose_name="Вознаграждение рекрутера"
+    )
 
     # юзер выбирает одно из списка. или добавляет свое
     name = models.CharField(
-        default="Новая заявка", max_length=256, verbose_name="Название вакансии/заявки"
+        default="Новая заявка",
+        max_length=256,
+        verbose_name="Название вакансии/заявки"
     )
     specialization = models.ForeignKey(
         Specialization,
@@ -286,21 +290,22 @@ class Application(models.Model):
 
     def clean(self):
         if not self.salary_min and not self.salary_max:
-            raise ValidationError(
-                {
-                    "salary_max": ("Пожалуйста, заполните salary_min или salary_max"),
-                    "salary_min": ("Пожалуйста, заполните salary_min или salary_max"),
-                }
-            )
+            raise ValidationError({
+                "salary_max": (
+                    "Пожалуйста, заполните salary_min или salary_max"
+                ),
+                "salary_min": (
+                    "Пожалуйста, заполните salary_min или salary_max"
+                ),
+            })
         if self.salary_min and self.salary_max:
             if self.salary_min > self.salary_max:
-                raise ValidationError(
-                    {
-                        "salary_min": (
-                            "Минимальная зарплата" "не может быть больше максимальной"
-                        )
-                    }
-                )
+                raise ValidationError({
+                    "salary_min": (
+                        "Минимальная зарплата"
+                        "не может быть больше максимальной"
+                    )
+                })
         if self.bonus and self.bonus_description in "":
             raise ValidationError(
                 {"bonus_description": "Пожалуйста заполните bonus_description"}
@@ -319,7 +324,11 @@ class SkillApplication(models.Model):
     application_id = models.ForeignKey(
         Application, on_delete=models.CASCADE, verbose_name="Заявка"
     )
-    skill_id = models.ForeignKey(Skill, on_delete=models.PROTECT, verbose_name="Навык")
+    skill_id = models.ForeignKey(
+        Skill,
+        on_delete=models.PROTECT,
+        verbose_name="Навык"
+    )
 
     class Meta:
         verbose_name = "Заявка-Навык"
@@ -410,7 +419,7 @@ class ExpectationsApplication(models.Model):
 
 class SkillSpecialization(models.Model):
     specialization_id = models.ForeignKey(
-        Specialization, on_delete=models.CASCADE, verbose_name="Специальность"  #
+        Specialization, on_delete=models.CASCADE, verbose_name="Специальность"
     )
     skill_id = models.ForeignKey(
         Skill, on_delete=models.PROTECT, verbose_name="Навык"  #

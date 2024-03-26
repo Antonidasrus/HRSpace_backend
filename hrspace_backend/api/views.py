@@ -49,7 +49,9 @@ class SpecializationViewSet(ReadOnlyModelViewSet):
 @method_decorator(
     name="retrieve",
     decorator=swagger_auto_schema(
-        operation_id="Towns-get", operation_description="Получаем город", tags=["Towns"]
+        operation_id="Towns-get",
+        operation_description="Получаем город",
+        tags=["Towns"]
     ),
 )
 @method_decorator(
@@ -97,7 +99,9 @@ class LanguageViewSet(ReadOnlyModelViewSet):
 @method_decorator(
     name="retrieve",
     decorator=swagger_auto_schema(
-        operation_id="Skill-get", operation_description="Получаем навык", tags=["Skill"]
+        operation_id="Skill-get",
+        operation_description="Получаем навык",
+        tags=["Skill"]
     ),
 )
 @method_decorator(
@@ -114,10 +118,14 @@ class SkillViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        specialization_name = self.request.query_params.get("specialization_name")
+        specialization_name = self.request.query_params.get(
+            "specialization_name"
+        )
         # specialization_name = 'кодер'
         if specialization_name:
-            queryset = queryset.filter(specialization__name=specialization_name)
+            queryset = queryset.filter(
+                specialization__name=specialization_name
+            )
         return istartswith_search(queryset, self)
 
 
@@ -143,20 +151,26 @@ class SalaryViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        specialization_name = self.request.query_params.get("specialization_name")
+        specialization_name = self.request.query_params.get(
+            "specialization_name"
+        )
         # specialization_name = 'кодер'
         if specialization_name:
-            queryset = queryset.filter(specialization__name=specialization_name)
+            queryset = queryset.filter(
+                specialization__name=specialization_name
+            )
         name = self.request.query_params.get("name")
         # name = 'Палк' # начало названия города
         if name:  # поменять на town
             queryset = queryset.filter(
                 salaryrecomendtown__town_id__name__istartswith=name
             )
-        average_salary = queryset.aggregate(average_salary=Avg("salary_recomend"))[
-            "average_salary"
-        ]
-        created_salary_recomend = Salaryrecomend(salary_recomend=average_salary)
+        average_salary = queryset.aggregate(average_salary=Avg(
+            "salary_recomend"
+        ))["average_salary"]
+        created_salary_recomend = Salaryrecomend(
+            salary_recomend=average_salary
+        )
         return [created_salary_recomend]
 
 
@@ -228,7 +242,9 @@ class AllData(APIView):
         specialization_list = list(
             Specialization.objects.values_list("name", flat=True)
         )
-        experience_list = list(Experience.objects.values_list("name", flat=True))
+        experience_list = list(
+            Experience.objects.values_list("name", flat=True)
+        )
         education_list = list(Education.objects.values_list("name", flat=True))
         payments_list = list(Payments.objects.values_list("name", flat=True))
         towns_list = list(Towns.objects.values_list("name", flat=True))
@@ -236,10 +252,18 @@ class AllData(APIView):
         languages_levels_list = list(
             LanguageLevel.objects.values_list("name", flat=True)
         )
-        registration_list = list(Registration.objects.values_list("name", flat=True))
-        occupation_list = list(Occupation.objects.values_list("name", flat=True))
-        timetable_list = list(Schedule.objects.values_list("name", flat=True))
-        expectations_list = list(Expectations.objects.values_list("name", flat=True))
+        registration_list = list(
+            Registration.objects.values_list("name", flat=True)
+        )
+        occupation_list = list(
+            Occupation.objects.values_list("name", flat=True)
+        )
+        timetable_list = list(
+            Schedule.objects.values_list("name", flat=True)
+        )
+        expectations_list = list(
+            Expectations.objects.values_list("name", flat=True)
+        )
         date = datetime.now().strftime("%Y-%m-%d")
 
         return Response(

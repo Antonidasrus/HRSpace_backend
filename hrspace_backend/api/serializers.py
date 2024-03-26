@@ -123,7 +123,9 @@ class ApplicationSerializer(ModelSerializer):
     )
 
     def create(self, validated_data):
-        specialization_name = validated_data.pop("specialization", {}).get("name")
+        specialization_name = validated_data.pop(
+            "specialization", {}
+        ).get("name")
         experience_name = validated_data.pop("experience", {}).get("name")
         education_name = validated_data.pop("education", {}).get("name")
         payments_name = validated_data.pop("payments", {}).get("name")
@@ -140,20 +142,28 @@ class ApplicationSerializer(ModelSerializer):
         specialization_instance, _ = Specialization.objects.get_or_create(
             name=specialization_name
         )
-        experience_instance, _ = Experience.objects.get_or_create(name=experience_name)
-        education_instance, _ = Education.objects.get_or_create(name=education_name)
-        payments_instance, _ = Payments.objects.get_or_create(name=payments_name)
+        experience_instance, _ = Experience.objects.get_or_create(
+            name=experience_name
+        )
+        education_instance, _ = Education.objects.get_or_create(
+            name=education_name
+        )
+        payments_instance, _ = Payments.objects.get_or_create(
+            name=payments_name
+        )
         towns_instance, _ = Towns.objects.get_or_create(name=towns_name)
 
         salary_min = validated_data.pop("salary_min", 0)
         salary_max = validated_data.pop("salary_max", 0)
         if salary_min == 0 and salary_max == 0:
-            raise serializers.ValidationError(
-                {
-                    "salary_max": ["Пожалуйста, заполните salary_min или salary_max"],
-                    "salary_min": ["Пожалуйста, заполните salary_min или salary_max"],
-                }
-            )
+            raise serializers.ValidationError({
+                "salary_max": [
+                    "Пожалуйста, заполните salary_min или salary_max"
+                ],
+                "salary_min": [
+                    "Пожалуйста, заполните salary_min или salary_max"
+                ],
+            })
 
         application = Application.objects.create(
             specialization=specialization_instance,
@@ -170,8 +180,12 @@ class ApplicationSerializer(ModelSerializer):
         application.registration.set(
             Registration.objects.filter(name__in=registration_data)
         )
-        application.occupation.set(Occupation.objects.filter(name__in=occupation_data))
-        application.timetable.set(Schedule.objects.filter(name__in=timetable_data))
+        application.occupation.set(Occupation.objects.filter(
+            name__in=occupation_data
+        ))
+        application.timetable.set(Schedule.objects.filter(
+            name__in=timetable_data
+        ))
         application.expectations.set(
             Expectations.objects.filter(name__in=expectations_data)
         )
@@ -200,13 +214,12 @@ class ApplicationSerializer(ModelSerializer):
     def validate(self, data):
         try:
             if data["salary_min"] > data["salary_max"]:
-                raise serializers.ValidationError(
-                    {
-                        "salary_min": [
-                            ("Минимальная зарплата не может быть больше максимальной")
-                        ]
-                    }
-                )
+                raise serializers.ValidationError({
+                    "salary_min": [
+                        "Минимальная зарплата не "
+                        "может быть больше максимальной"
+                    ]
+                })
             if data["bonus"]:
                 try:
                     if data["bonus_description"] in "":

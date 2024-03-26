@@ -26,7 +26,11 @@ v1_router.register(
 #     basename='spaces')  # поменять на app
 
 # для тестов. проверить, будет ли на фронте без урла работать istartswith
-v1_router.register("specializations", SpecializationViewSet, basename="specializations")
+v1_router.register(
+    "specializations",
+    SpecializationViewSet,
+    basename="specializations"
+)
 
 v1_router.register("towns", TownsViewSet, basename="towns")
 
