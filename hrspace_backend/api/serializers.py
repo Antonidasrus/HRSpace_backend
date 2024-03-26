@@ -15,30 +15,6 @@ class SpecializationSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class ExperienceSerializer(ModelSerializer):
-    class Meta:
-        model = Experience
-        fields = "__all__"
-
-
-class EducationSerializer(ModelSerializer):
-    class Meta:
-        model = Education
-        fields = "__all__"
-
-
-class PaymentsSerializer(ModelSerializer):
-    class Meta:
-        model = Payments
-        fields = "__all__"
-
-
-class PaymentsSerializer(ModelSerializer):
-    class Meta:
-        model = Payments
-        fields = "__all__"
-
-
 class TownsSerializer(ModelSerializer):
 
     class Meta:
@@ -59,29 +35,11 @@ class SkillSerializer(ModelSerializer):
         fields = ("name",)
 
 
-class RegistrationSerializer(ModelSerializer):
+class SalarySerializer(ModelSerializer):
 
     class Meta:
-        model = Registration
-        fields = ("name",)
-
-
-class OccupationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Occupation
-        fields = ("name",)
-
-
-class ScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Schedule
-        fields = ("name",)
-
-
-class ExpectationsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Expectations
-        fields = ("name",)
+        model = Salaryrecomend
+        fields = ("id", "salary_recomend")
 
 
 class LanguageApplicationSerializer(serializers.ModelSerializer):
@@ -286,10 +244,3 @@ class ApplicationSerializer(ModelSerializer):
             "timetable",
             "expectations",
         )
-
-
-class SalarySerializer(ModelSerializer):
-
-    class Meta:
-        model = Salaryrecomend
-        fields = ("id", "salary_recomend")

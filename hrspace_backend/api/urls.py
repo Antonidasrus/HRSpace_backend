@@ -19,12 +19,6 @@ v1_router.register(
 )  # поменять на app
 
 
-# v1_router.register(
-#     'spaces/drafts',  # поменять на app
-#     # r'spaces',
-#     ApplicationViewSet,
-#     basename='spaces')  # поменять на app
-
 # для тестов. проверить, будет ли на фронте без урла работать istartswith
 v1_router.register(
     "specializations",
