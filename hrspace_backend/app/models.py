@@ -6,7 +6,12 @@ from users.models import User
 
 from .validators import date_validator
 
-BOOLEAN_CHOICES = ("Нет", "Да")
+BOOLEAN_CHOICES = ("Да", "Нет")
+PAYMENTS_CHOICES = [
+    "100% после выхода сотрудника",
+    "50/50 после выхода сотрудника после гарантийного срока",
+    "100% после гарантийного срока"
+]
 CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
