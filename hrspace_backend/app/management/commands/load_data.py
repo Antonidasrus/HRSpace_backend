@@ -7,7 +7,8 @@ from tqdm import tqdm
 
 from app.models import (Education, Expectations, Experience, Language,
                         LanguageLevel, Occupation, Payments, Registration,
-                        Schedule, Skill, Specialization, Towns)
+                        Schedule, Skill, Towns)
+from hrspace_backend.settings import BASE_DIR
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -19,7 +20,6 @@ first delete the db.sqlite3 file to destroy the database.
 Then, run `python manage.py migrate` for a new empty
 database with tables"""
 MODELS_FIELD_NAME = (
-    Specialization,
     Towns,
     Experience,
     Education,
@@ -35,7 +35,7 @@ MODELS_FIELD_NAME = (
 
 
 def application_app_models_fill():
-    if Specialization.objects.exists():
+    if Towns.objects.exists():
         logging.warning("Data already loaded...exiting.")
         raise Exception(ALREDY_LOADED_ERROR_MESSAGE)
 
@@ -44,7 +44,7 @@ def application_app_models_fill():
         logging.info(f"Loading - data a table - {name_model}")
         for row in tqdm(
             DictReader(
-                io.open(f"static/data/{name_model}.csv", mode="r", encoding="utf-8")
+                io.open(f"{BASE_DIR}/static/data/{name_model}.csv", mode="r", encoding="utf-8")
             ),
             desc="Processing",
         ):

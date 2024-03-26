@@ -166,10 +166,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = True
-<<<<<<< HEAD
 CORS_URLS_REGEX = r'^/api/.*$'
 
 # SECURE_SSL_REDIRECT = True
-=======
-CORS_URLS_REGEX = r"^/api/.*$"
->>>>>>> 89c874c9cdc06e7993a5368025bc82dafd6acf1b

@@ -204,8 +204,11 @@ class Application(models.Model):
             MaxValueValidator(CANDIDATES_COUNT_CHOICES[-1]),
         ],
     )
-    dateemployment = models.DateField(
+    date_employment = models.DateField(
         verbose_name='Дата выхода сотрудника',
+        validators=[
+            date_validator
+        ]
     )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name="Количество рекрутеров",
@@ -308,17 +311,8 @@ class Application(models.Model):
                 })
         if self.bonus and self.bonus_description in "":
             raise ValidationError(
-                {'bonusdescription': 'Пожалуйста заполните bonusdescription'}
+                {'bonus_description': 'Пожалуйста заполните bonus_description'}
             )
-        if (
-            self.dateemployment
-            <= timezone.datetime.now().date() + timezone.timedelta(3)
-        ):  # сделать в отельную валидацию
-            raise ValidationError({
-                'dateemployment': (
-                    'Дата должна быть больше текущей даты на три дня'
-                )
-            })
 
     def __str__(self):
         return self.specialization.name
