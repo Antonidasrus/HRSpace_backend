@@ -8,10 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from app.models import (BOOLEAN_CHOICES, CANDIDATES_COUNT_CHOICES,
-                        RECRUITER_COUNT_CHOICES, Application, Education,
-                        Expectations, Experience, Language, LanguageLevel,
-                        Occupation, Payments, Registration, Salaryrecomend,
-                        Schedule, Skill, Specialization, Towns)
+                        PAYMENTS_CHOICES, RECRUITER_COUNT_CHOICES, Application,
+                        Education, Expectations, Experience, Language,
+                        LanguageLevel, Occupation, Payments, Registration,
+                        Salaryrecomend, Schedule, Skill, Specialization, Towns)
 
 from .serializers import (ApplicationSerializer, LanguageSerializer,
                           SalarySerializer, SkillSerializer,
@@ -237,7 +237,6 @@ class AllData(APIView):
             Experience.objects.values_list("name", flat=True)
         )
         education_list = list(Education.objects.values_list("name", flat=True))
-        payments_list = list(Payments.objects.values_list("name", flat=True))
         towns_list = list(Towns.objects.values_list("name", flat=True))
         languages_list = list(Language.objects.values_list("name", flat=True))
         languages_levels_list = list(
@@ -275,6 +274,7 @@ class AllData(APIView):
                 "date": date,
                 "recruiter_count": RECRUITER_COUNT_CHOICES,
                 "candidates_count": CANDIDATES_COUNT_CHOICES,
-                "payments": payments_list,
+                "payments": PAYMENTS_CHOICES,
+                # award
             }
         )
