@@ -4,8 +4,6 @@ from django.db import models
 
 from users.models import User
 
-# from .validators import date_validator
-
 BOOLEAN_CHOICES = ("Да", "Нет")
 CANDIDATES_COUNT_CHOICES = [number for number in range(1, 11)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
@@ -166,9 +164,6 @@ class Application(models.Model):
         verbose_name="Максимальня зараплта", null=True, blank=True
     )
     responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
-    # bonus_description = models.TextField(
-    #     verbose_name="Описание бонусов от работодателя", blank=True
-    # )
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
@@ -179,12 +174,6 @@ class Application(models.Model):
             MaxValueValidator(CANDIDATES_COUNT_CHOICES[-1]),
         ],
     )
-    # date_employment = models.DateField(
-    #     verbose_name='Дата выхода сотрудника',
-    #     validators=[
-    #         date_validator
-    #     ]
-    # )
     recruiter_count = models.PositiveSmallIntegerField(
         verbose_name="Количество рекрутеров",
         validators=[
@@ -275,10 +264,6 @@ class Application(models.Model):
                         "не может быть больше максимальной"
                     )
                 })
-        # if self.bonus and self.bonus_description in "":
-        #     raise ValidationError(
-        #         {'bonus_description': 'Пожалуйста заполните bonus_description'}
-        #     )
 
     def __str__(self):
         return self.specialization.name
