@@ -275,6 +275,5 @@ class AllData(APIView):
                 "recruiter_count": RECRUITER_COUNT_CHOICES,
                 "candidates_count": CANDIDATES_COUNT_CHOICES,
                 "payments": PAYMENTS_CHOICES,
-                # award
             }
         )
