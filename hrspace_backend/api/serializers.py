@@ -255,7 +255,7 @@ class ApplicationSerializer(ModelSerializer):
         fields = (
             "id",
             "employer_id",
-            "date",
+            # "date",
             "mission",
             "bonus",
             "salary_min",

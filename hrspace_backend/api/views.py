@@ -1,4 +1,4 @@
-from datetime import datetime
+# from datetime import datetime
 
 from django.db.models import Avg
 from django.utils.decorators import method_decorator
@@ -277,7 +277,7 @@ class AllData(APIView):
             Payments.objects.values_list(
                 "name", flat=True).order_by('id')
         )
-        date = datetime.now().strftime("%Y-%m-%d")
+        # date = datetime.now().strftime("%Y-%m-%d")
 
         return Response(
             {
@@ -294,7 +294,7 @@ class AllData(APIView):
                 "mission": BOOLEAN_CHOICES,
                 "bonus": BOOLEAN_CHOICES,
                 "expectations": expectations_list,
-                "date": date,
+                # "date": date,
                 "recruiter_count": RECRUITER_COUNT_CHOICES,
                 "candidates_count": CANDIDATES_COUNT_CHOICES,
                 "payments": payments_list
