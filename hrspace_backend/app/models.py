@@ -12,7 +12,7 @@ PAYMENTS_CHOICES = [
     "50/50 после выхода сотрудника после гарантийного срока",
     "100% после гарантийного срока"
 ]
-CANDIDATES_COUNT_CHOICES = [number for number in range(1, 21)]
+CANDIDATES_COUNT_CHOICES = [number for number in range(1, 11)]
 RECRUITER_COUNT_CHOICES = [1, 2, 3]
 
 COUNT_RECRUTER = [1, 2, 3]
