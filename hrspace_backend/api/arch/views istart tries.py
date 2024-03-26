@@ -1,7 +1,8 @@
-from app.models import Application, Specialization
 from rest_framework.viewsets import ModelViewSet
-from .serializers import ApplicationSerializer, SpecializationSerializer
 
+from app.models import Application, Specialization
+
+from .serializers import ApplicationSerializer, SpecializationSerializer
 
 # def startswith_search(queryset, self):
 #     """
@@ -20,7 +21,7 @@ class SpecializationViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        name = self.request.query_params.get('name')
+        name = self.request.query_params.get("name")
         if name:
             queryset = queryset.filter(name__istartswith=name)
         return queryset

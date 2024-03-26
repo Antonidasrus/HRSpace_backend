@@ -2,17 +2,17 @@ from django.db import models
 
 
 class Skill(models.Model):
-    name = models.CharField('Название', max_length=256, unique=True)
+    name = models.CharField("Название", max_length=256, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Specialization(models.Model):
-    name = models.CharField('Название', max_length=256, unique=True)
+    name = models.CharField("Название", max_length=256, unique=True)
     skills = models.ManyToManyField(
         Skill,
-        through='SkillSpecialization',
+        through="SkillSpecialization",
     )
 
     def __str__(self):
