@@ -5,8 +5,8 @@ from app.models import (Application, Education, Expectations, Experience,
                         Language, LanguageApplication, LanguageLevel,
                         Occupation, Payments, Registration, Salaryrecomend,
                         Schedule, Skill, Specialization, Towns)
-
 from app.validators import date_validator
+
 
 class SpecializationSerializer(ModelSerializer):
 
@@ -118,7 +118,9 @@ class ApplicationSerializer(ModelSerializer):
         queryset=Expectations.objects.all(), slug_field="name", many=True
     )
 
-    languages = LanguageApplicationSerializer(required=False, many=True, source="language_list")
+    languages = LanguageApplicationSerializer(
+        required=False, many=True, source="language_list"
+    )
 
     def create(self, validated_data):
         specialization_name = validated_data.pop("specialization", {}).get("name")
@@ -126,7 +128,7 @@ class ApplicationSerializer(ModelSerializer):
         education_name = validated_data.pop("education", {}).get("name")
         payments_name = validated_data.pop("payments", {}).get("name")
         towns_name = validated_data.pop("towns", {}).get("name")
-        
+
         skills_data = validated_data.pop("skills", [])
         registration_data = validated_data.pop("registration", [])
         occupation_data = validated_data.pop("occupation", [])
@@ -134,7 +136,7 @@ class ApplicationSerializer(ModelSerializer):
         expectations_data = validated_data.pop("expectations", [])
 
         languages_data = validated_data.pop("language_list", [{}])
-        
+
         specialization_instance, _ = Specialization.objects.get_or_create(
             name=specialization_name
         )
@@ -180,7 +182,9 @@ class ApplicationSerializer(ModelSerializer):
             for language_data in languages_data:
                 language_id = language_data["id"]
                 language_level = language_data["language_level"]
-                language_level, _ = LanguageLevel.objects.get_or_create(name=language_level)
+                language_level, _ = LanguageLevel.objects.get_or_create(
+                    name=language_level
+                )
                 language_application_list.append(
                     LanguageApplication(
                         language_id=language_id,
@@ -195,26 +199,27 @@ class ApplicationSerializer(ModelSerializer):
 
     def validate(self, data):
         try:
-            if data['salary_min'] > data['salary_max']:
+            if data["salary_min"] > data["salary_max"]:
                 raise serializers.ValidationError(
                     {
-                        "salary_min": [(
-                            "Минимальная зарплата не может быть больше максимальной"
-                        )]
-                    })
-            if data['bonus']:
+                        "salary_min": [
+                            ("Минимальная зарплата не может быть больше максимальной")
+                        ]
+                    }
+                )
+            if data["bonus"]:
                 try:
-                    if data['bonus_description'] in '':
+                    if data["bonus_description"] in "":
                         raise serializers.ValidationError(
-                            {'bonus_description': ['Неможет быть пустым.']}
+                            {"bonus_description": ["Неможет быть пустым."]}
                         )
                 except KeyError:
                     raise serializers.ValidationError(
-                        {'bonus_description': ['Обязательное поле.']}
+                        {"bonus_description": ["Обязательное поле."]}
                     )
         except KeyError:
             pass
-        date_validator(data['date_employment'])
+        date_validator(data["date_employment"])
         return data
 
     def to_representation(self, instance):
@@ -253,7 +258,7 @@ class ApplicationSerializer(ModelSerializer):
             "other_requirements",
             "candidates_count",
             "recruiter_count",
-            'date_employment',
+            "date_employment",
             "award",
             "name",
             "specialization",
