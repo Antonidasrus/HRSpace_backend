@@ -193,7 +193,7 @@ class Application(models.Model):
     responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
     bonus_description = models.TextField(
         verbose_name="Описание бонусов от работодателя", blank=True
-    )
+    )  # может ли ошибка из-за того, что есть уже bonus
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
