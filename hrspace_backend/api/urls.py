@@ -21,10 +21,26 @@ v1_router.register(
     SpecializationViewSet,
     basename="specializations"
 )
-v1_router.register("towns", TownsViewSet, basename="towns")
-v1_router.register("skill", SkillViewSet, basename="skill")
-v1_router.register("language", LanguageViewSet, basename="language")
-v1_router.register("salary", SalaryViewSet, basename="salary")
+v1_router.register(
+    "towns",
+    TownsViewSet,
+    basename="towns"
+)
+v1_router.register(
+    "skill",
+    SkillViewSet,
+    basename="skill"
+)
+v1_router.register(
+    "language",
+    LanguageViewSet,
+    basename="language"
+)
+v1_router.register(
+    "salary",
+    SalaryViewSet,
+    basename="salary"
+)
 
 schema_view = get_schema_view(
     openapi.Info(

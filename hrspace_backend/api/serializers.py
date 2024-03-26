@@ -5,7 +5,7 @@ from app.models import (Application, Education, Expectations, Experience,
                         Language, LanguageApplication, LanguageLevel,
                         Occupation, Payments, Registration, Salaryrecomend,
                         Schedule, Skill, Specialization, Towns)
-from app.validators import date_validator
+# from app.validators import date_validator
 
 
 class SpecializationSerializer(ModelSerializer):
@@ -15,6 +15,7 @@ class SpecializationSerializer(ModelSerializer):
         fields = "__all__"
 
 
+'''
 class ExperienceSerializer(ModelSerializer):
     class Meta:
         model = Experience
@@ -38,6 +39,25 @@ class PaymentsSerializer(ModelSerializer):
         model = Payments
         fields = "__all__"
 
+class RegistrationSerializer(ModelSerializer):
+
+    class Meta:
+        model = Registration
+        fields = ("name",)
+
+
+class OccupationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Occupation
+        fields = ("name",)
+
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = ("name",)
+'''
+
 
 class TownsSerializer(ModelSerializer):
 
@@ -59,23 +79,11 @@ class SkillSerializer(ModelSerializer):
         fields = ("name",)
 
 
-class RegistrationSerializer(ModelSerializer):
+class SalarySerializer(ModelSerializer):
 
     class Meta:
-        model = Registration
-        fields = ("name",)
-
-
-class OccupationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Occupation
-        fields = ("name",)
-
-
-class ScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Schedule
-        fields = ("name",)
+        model = Salaryrecomend
+        fields = ("id", "salary_recomend")
 
 
 class ExpectationsSerializer(serializers.ModelSerializer):
@@ -286,10 +294,3 @@ class ApplicationSerializer(ModelSerializer):
             "timetable",
             "expectations",
         )
-
-
-class SalarySerializer(ModelSerializer):
-
-    class Meta:
-        model = Salaryrecomend
-        fields = ("id", "salary_recomend")
