@@ -190,13 +190,10 @@ class Application(models.Model):
     salary_max = models.PositiveBigIntegerField(
         verbose_name="Максимальня зараплта", null=True, blank=True
     )
-    responsibilities = models.TextField(
-        verbose_name='Обязанности сотрудника'
-    )
-    bonusdescription = models.TextField(
-        verbose_name='Описание бонусов от работодателя',
-        blank=True
-    )
+    responsibilities = models.TextField(verbose_name="Обязанности сотрудника")
+    bonus_description = models.TextField(
+        verbose_name="Описание бонусов от работодателя", blank=True
+    )  # может ли ошибка из-за того, что есть уже bonus
     other_requirements = models.TextField(
         verbose_name="Дополнительные требования", blank=True
     )
