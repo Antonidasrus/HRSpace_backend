@@ -162,4 +162,4 @@ cython_debug/
 **/migrations/
 docs
 
-/arch/
+/hrspace_backend/api/arch/
