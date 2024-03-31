@@ -161,3 +161,5 @@ cython_debug/
 
 **/migrations/
 docs
+
+/hrspace_backend/api/arch/
